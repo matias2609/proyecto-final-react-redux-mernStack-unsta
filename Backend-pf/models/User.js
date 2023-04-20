@@ -43,6 +43,11 @@ const userSchema = new mongoose.Schema(
       type: "boolean",
       default: false,
     },
+
+    codigoVerificacion: {
+      type: "string",
+      default: null,
+    },
   },
   {
     versionKey: false,

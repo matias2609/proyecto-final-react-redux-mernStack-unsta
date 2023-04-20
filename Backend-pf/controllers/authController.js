@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { nanoid } = require("nanoid");
 const sgMail = require("@sendgrid/mail");
+const crypto = require("crypto");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -11,7 +12,6 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 // @route POST /auth
 // @access Public
 const register = async (req, res) => {
-  console.log(req.body);
   const { nombre, apellido, numeroContacto, email, password } = req.body;
   try {
     //validación#2
@@ -114,7 +114,9 @@ const login = async (req, res) => {
     res.json({ ok: "Cuenta no confirmada por mail" });
 
   if (!foundUser || !foundUser.active) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res
+      .status(401)
+      .json({ message: "Acceso no autorizado, verifique lo que ha ingresado" });
   }
 
   const match = await bcrypt.compare(password, foundUser.password);
@@ -159,7 +161,8 @@ const login = async (req, res) => {
 const refresh = (req, res) => {
   const cookies = req.cookies;
 
-  if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
+  if (!cookies?.jwt)
+    return res.status(401).json({ message: "Acceso no Autorizado!" });
 
   const refreshToken = cookies.jwt;
 
@@ -202,10 +205,102 @@ const logout = (req, res) => {
   res.json({ message: "Cookie cleared" });
 };
 
+// @desc passwordRecoveryMail
+// @access Public - just recovery de user's password if exists and if is verified
+const passwordRecoveryMail = async (req, res) => {
+  const { email } = req.body;
+
+  // Buscar al usuario en la base de datos
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res
+      .status(400)
+      .json({ error: "No existe un usuario con ese correo electrónico" });
+  }
+  if (!user.cuentaConfirmada)
+    return res.status(400).json({
+      error: "El email proporcionado corresponde a una cuenta no verificada",
+    });
+
+  const verificationCode = crypto.randomBytes(3).toString("hex");
+
+  user.codigoVerificacion = verificationCode;
+  await user.save();
+  try {
+    const msg = {
+      to: user.email,
+      from: "nicholas0810152015@gmail.com",
+      subject: "Recuperación de contraseña | Datazo",
+      html: `
+      <p>Estás recibiendo este correo electrónico porque solicitaste recuperar tu contraseña en nuestra aplicación.</p>
+      <p>Ingresa el siguiente código de verificación en la aplicación:</p>
+      <h2 style="margin-top: 0;">${user.codigoVerificacion}</h2>
+      <p>Este código es válido por 15 minutos. Si no lo usas en ese tiempo, deberás generar uno nuevo.</p>
+      <p>Si no solicitaste recuperar tu contraseña, puedes ignorar este mensaje.</p>
+      <p>Atentamente,</p>
+      <p>El equipo de Datazo</p>
+    `,
+    };
+
+    await sgMail.send(msg);
+
+    await user.save();
+
+    res.json({
+      mensaje:
+        "Se ha enviado un código de verificación por correo electrónico.",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "Ha ocurrido un error al intentar recuperar la contraseña.",
+    });
+  }
+};
+
+const verifyVerificationCode = async (req, res) => {
+  const { email, verificationCode, newPassword } = req.body;
+
+  // Buscar al usuario en la base de datos
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res
+      .status(400)
+      .json({ error: "No existe un usuario con ese correo electrónico" });
+  }
+
+  if (user.codigoVerificacion !== verificationCode) {
+    return res
+      .status(400)
+      .json({ error: "El código de verificación es incorrecto" });
+  }
+
+  user.password = newPassword;
+  user.codigoVerificacion = null;
+  await user.save();
+
+  const msg = {
+    to: user.email,
+    from: "nicholas0810152015@gmail.com",
+    subject: "Verificacion Exitosa",
+    html: `
+    <p>Tu contraseña ha sido actualizada correctamente, gracias por confiar en nosotros!.</p>
+    <p>Atentamente,</p>
+    <p>El equipo de Datazo</p>
+  `,
+  };
+
+  await sgMail.send(msg);
+
+  res.status(200).json({ message: "Contraseña actualizada correctamente" });
+};
+
 module.exports = {
   login,
   refresh,
   logout,
   register,
   confirmarCuenta,
+  passwordRecoveryMail,
+  verifyVerificationCode,
 };

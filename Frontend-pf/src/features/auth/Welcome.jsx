@@ -7,13 +7,18 @@ const Welcome = () => {
   useTitle(`Bienvenido: ${nombre}!`);
 
   const content = (
-    <section className="welcome p-3">
-      <h1>
-        Bienvenido {apellido}, {nombre}, soy el componente Welcome en Features!
-      </h1>
-      <p>{email}</p>
-      <p>{numeroContacto}</p>
-    </section>
+    <>
+      <br />
+      <br />
+
+      <section className="welcome p-3">
+        <h1>
+          Bienvenido {apellido}, {nombre}, a DATAZO.COM!
+        </h1>
+        <h4> {email}</h4>
+        <h4>{numeroContacto}</h4>
+      </section>
+    </>
   );
 
   return content;

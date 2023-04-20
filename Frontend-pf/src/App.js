@@ -10,6 +10,8 @@ import { ROLES } from "./config/roles";
 import useTitle from "./hooks/useTitle";
 import Signup from "./features/auth/Signup";
 import RequireAuthTwo from "./features/auth/RequireAuthTwo";
+import OlvideMiContraseña from "./components/OlvideMiContraseña";
+import WorkWithUs from "./components/WorkWithUs";
 
 function App() {
   useTitle("Datazo.com");
@@ -21,6 +23,8 @@ function App() {
         <Route index element={<Public />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
+        <Route path="workWithUs" element={<WorkWithUs />} />
+        <Route path="/login/missPassword" element={<OlvideMiContraseña />} />
         {/* Protected Routes */}
         <Route element={<PersistLogin />}>
           <Route

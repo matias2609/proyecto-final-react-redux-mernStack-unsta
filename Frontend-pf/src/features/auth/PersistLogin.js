@@ -50,9 +50,9 @@ const PersistLogin = () => {
     //persist: yes, token: no
     console.log("error");
     content = (
-      <p className="errmsg">
+      <p className="errmsg p-5">
         {`${error?.data?.message} - `}
-        <Link to="/login">Unauthorized, logout and login again please</Link>
+        <Link to="/login">Cierre y vuelva a iniciar su sesión por favor</Link>
       </p>
     );
   } else if (isSuccess && trueSuccess) {

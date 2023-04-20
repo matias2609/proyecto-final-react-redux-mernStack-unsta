@@ -49,4 +49,8 @@ router.route("/register").post(
 
 router.route("/:token").get(authController.confirmarCuenta); //confirm account route
 
+router.route("/passwordRecoveryMail").post(authController.passwordRecoveryMail);
+
+router.route("/verifyCode").post(authController.verifyVerificationCode);
+
 module.exports = router;
