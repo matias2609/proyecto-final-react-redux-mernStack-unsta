@@ -12,12 +12,15 @@ import Signup from "./features/auth/Signup";
 import RequireAuthTwo from "./features/auth/RequireAuthTwo";
 import OlvideMiContraseña from "./components/OlvideMiContraseña";
 import WorkWithUs from "./components/WorkWithUs";
+import NotFound from "./components/NotFound";
+import Professionals from "./components/Professionals";
 
 function App() {
   useTitle("Datazo.com");
 
   return (
     <Routes>
+      <Route path="*" element={<NotFound />} />
       <Route path="/" element={<Layout />}>
         {/* public routes */}
         <Route index element={<Public />} />
@@ -38,7 +41,15 @@ function App() {
                 </RequireAuthTwo>
               }
             >
-              <Route index element={<Welcome />} />
+              <Route
+                path="professionals/:alt"
+                element={
+                  <RequireAuthTwo>
+                    <Professionals />
+                  </RequireAuthTwo>
+                }
+              />
+              <Route element={<Welcome />} />
             </Route>
             {/* End Dash */}
           </Route>

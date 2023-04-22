@@ -10,7 +10,6 @@ const Welcome = () => {
     <>
       <br />
       <br />
-
       <section className="welcome p-3">
         <h1>
           Bienvenido {apellido}, {nombre}, a DATAZO.COM!

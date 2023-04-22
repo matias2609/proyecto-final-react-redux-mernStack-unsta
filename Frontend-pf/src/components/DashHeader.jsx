@@ -3,7 +3,7 @@ const DashHeader = () => {
     <>
       <br />
       <br />
-      <h2 className="p-3">Esta es una ruta protegida 👇</h2>
+      <h5 className="p-2">Busqueda de Profesional:</h5>
     </>
   );
 };

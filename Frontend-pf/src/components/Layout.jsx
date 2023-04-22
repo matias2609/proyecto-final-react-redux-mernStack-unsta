@@ -10,40 +10,49 @@ const Layout = () => {
     const position = location.pathname === "/" ? "relative" : "absolute";
 
     return (
-      <footer style={{ position }} className="footer">
-        <footer className="footer text-center">
-          <div>
-            <h2>🇩‌🇦‌🇹‌🇦‌🇿‌🇴‌</h2>
-            <nav className="nav-footer">
-              <ul className="ul-footer">
-                <li className="li-footer">
-                  <a href="#inicio" className="a-footer">
-                    Inicio
-                  </a>
-                </li>
-                <li className="li-footer">
-                  <a href="/#faqs" className="a-footer">
-                    FAQs
-                  </a>
-                </li>
-                <li className="li-footer">
-                  <NavLink to="/workWithUs" className="a-footer">
-                    Trabaja con nosotros
-                  </NavLink>
-                </li>
-                <li className="li-footer">
-                  <a href="/#categories" className="a-footer">
-                    Categorias
-                  </a>
-                </li>
-              </ul>
-            </nav>
-            <p>
-              ©Copyright 2023 - UNSTA Datazo App - Todos los derechos
-              reservados.
-            </p>
-          </div>
-        </footer>
+      <footer
+        className="footer text-center"
+        style={{ position, fontFamily: "Lexend, sans-serif" }}
+      >
+        <h3
+          style={{
+            fontFamily: "Lexend, sans-serif",
+            fontWeight: "900",
+            marginTop: "10px",
+          }}
+        >
+          DATAZO
+        </h3>
+        <nav
+          className="nav-footer"
+          style={{ fontFamily: "Lexend, sans-serif", fontWeight: "700" }}
+        >
+          <ul className="ul-footer">
+            <li className="li-footer">
+              <a href="#inicio" className="a-footer">
+                Inicio
+              </a>
+            </li>
+            <li className="li-footer">
+              <a href="/#faqs" className="a-footer">
+                FAQs
+              </a>
+            </li>
+            <li className="li-footer">
+              <NavLink to="/workWithUs" className="a-footer">
+                Trabaja con nosotros
+              </NavLink>
+            </li>
+            <li className="li-footer">
+              <a href="/#categories" className="a-footer">
+                Categorias
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <p style={{ fontFamily: "Lexend, sans-serif", fontWeight: "400" }}>
+          ©Copyright 2023 - UNSTA Datazo App - Todos los derechos reservados.
+        </p>
       </footer>
     );
   }
@@ -99,7 +108,10 @@ const Layout = () => {
               </svg>
             </div>
           </NavLink>
-          <div className="button-container">
+          <div
+            className="button-container"
+            style={{ fontFamily: "Lexend, sans-serif" }}
+          >
             <a href="/#faqs" className="button">
               <b>Preguntas Frecuentes</b>
             </a>
@@ -109,9 +121,6 @@ const Layout = () => {
 
             {user ? (
               <>
-                <NavLink className="button btn btn-warning" to="/dash">
-                  <b> Ruta protegida 🔑</b>
-                </NavLink>
                 <button className="btn btn-danger" onClick={signOut}>
                   <b>Cerrar Sesión</b>
                 </button>

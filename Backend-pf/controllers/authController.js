@@ -5,6 +5,7 @@ require("dotenv").config();
 const { nanoid } = require("nanoid");
 const sgMail = require("@sendgrid/mail");
 const crypto = require("crypto");
+const { clearLine } = require("readline");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -110,8 +111,14 @@ const login = async (req, res) => {
   }
 
   const foundUser = await User.findOne({ email }).exec();
-  if (!foundUser.cuentaConfirmada)
-    res.json({ ok: "Cuenta no confirmada por mail" });
+
+  if (!foundUser)
+    return res
+      .status(401)
+      .json({ message: "No existe cuenta con el mail proporcionado" });
+
+  if (foundUser.cuentaConfirmada === false)
+    res.status(401).json({ message: "Cuenta no confirmada por mail" });
 
   if (!foundUser || !foundUser.active) {
     return res

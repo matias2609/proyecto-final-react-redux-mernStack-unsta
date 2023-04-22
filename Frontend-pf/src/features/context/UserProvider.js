@@ -9,6 +9,7 @@ const UserProvider = (props) => {
     const storedUser = localStorage.getItem("user");
     return storedUser !== null ? JSON.parse(storedUser) : false;
   });
+
   const [sendLogout] = useSendLogoutMutation();
   const navigate = useNavigate();
 

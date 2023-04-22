@@ -17,7 +17,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const [persist, setPersist] = usePersist("persists");
+  const [persists, setPersist] = usePersist("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,6 +26,11 @@ const Login = () => {
 
   useEffect(() => {
     userRef.current.focus();
+  }, []);
+
+  useEffect(() => {
+    setPersist(true);
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -41,12 +46,12 @@ const Login = () => {
       setPassword("");
       signIn(true); //from userProvider of UserContext
       setPersist(true);
-      navigate("/dash");
+      navigate("/");
     } catch (err) {
       if (!err.status) {
-        setErrMsg("No Server Response");
+        setErrMsg("Sin Respuesta de Servidor");
       } else if (err.status === 400) {
-        setErrMsg("Missing Username or Password");
+        setErrMsg("Email o Contraseña no introducida");
       } else if (err.status === 401) {
         setErrMsg(
           "⚠ Acceso Invalido, verifique las credenciales que proporcionó"
@@ -60,7 +65,7 @@ const Login = () => {
 
   const handleUserInput = (e) => setEmail(e.target.value);
   const handlePwdInput = (e) => setPassword(e.target.value);
-  const handleToggle = () => setPersist((prev) => !prev);
+  //const handleToggle = () => setPersist((prev) => !prev);
 
   const errClass = errMsg ? "errmsg text-danger" : "offscreen";
 
@@ -72,7 +77,6 @@ const Login = () => {
       <br />
       <br />
       <br />
-
       <main>
         <div className="content ">
           <div className="row">
@@ -178,21 +182,6 @@ const Login = () => {
                       >
                         Iniciar Sesión
                       </button>
-                      <label
-                        hidden
-                        htmlFor="persist"
-                        className="form__persist ms-2"
-                      >
-                        <input
-                          type="checkbox"
-                          className="form__checkbox"
-                          id="persist"
-                          onChange={handleToggle}
-                          checked={persist}
-                          defaultChecked={true}
-                        />
-                        &nbsp;Mantener sesion iniciada
-                      </label>
                       &nbsp; &nbsp;
                       <NavLink to="/login/missPassword">
                         Olvidaste tu contraseña?

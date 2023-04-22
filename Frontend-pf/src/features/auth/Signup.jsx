@@ -37,6 +37,13 @@ export const Signup = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const alert = (validationError) => {
+    Swal.fire({
+      icon: "error",
+      title: validationError,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
@@ -70,13 +77,7 @@ export const Signup = () => {
   return (
     <>
       <br />
-
-      {validationError && (
-        <div className="alert alert-danger" role="alert">
-          {validationError}
-        </div>
-      )}
-      <br />
+      {validationError && alert(validationError)}
       <br />
       <br />
       <br />

@@ -1,7 +1,26 @@
+import Swal from "sweetalert2";
+import { UserContext } from "../features/context/UserProvider";
 import useTitle from "../hooks/useTitle";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "../index.css";
 
 const Public = () => {
   useTitle("Datazo.com");
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const alertLogged = (e) => {
+    e.preventDefault();
+    if (user === false) {
+      Swal.fire({
+        icon: "error",
+        title: "Deber haber iniciado sesión para ver los profesionales",
+      });
+      navigate("/");
+    }
+  };
+
   const content = (
     <>
       <section id="inicio" className="p-4">
@@ -21,43 +40,49 @@ const Public = () => {
         <div class="parrafo">
           <h2>¡Buscá según la categoría que necesitás!</h2>
         </div>
-        <div class="categorias1">
-          <a href="#plomeros" class="botoncategorias">
-            <img
-              src="https://i.ibb.co/LzGk2nC/Plomeros.png"
-              alt="Plomeros"
-            ></img>
-          </a>
-          <a href="#gasistas" class="botoncategorias">
-            <img
-              src="https://i.ibb.co/zS3KzQ3/Gasistas.png"
-              alt="Gasistas"
-            ></img>
-          </a>
-          <a href="#pintores" class="botoncategorias">
-            <img
-              src="https://i.ibb.co/5kP23P9/Pintores.png"
-              alt="Pintores"
-            ></img>
-          </a>
+        <div class="categorias1" onClick={alertLogged}>
+          <Link to={`/dash/professionals/Plomero`}>
+            <a href="#plomeros" class="botoncategorias">
+              <img
+                src="https://i.ibb.co/LzGk2nC/Plomeros.png"
+                alt="Plomero"
+              ></img>
+            </a>
+          </Link>
+          <Link to={`/dash/professionals/Gasista`}>
+            <a href="#gasistas" class="botoncategorias">
+              <img
+                src="https://i.ibb.co/zS3KzQ3/Gasistas.png"
+                alt="Gasista"
+              ></img>
+            </a>
+          </Link>
+          <Link to={`/dash/professionals/Pintor`}>
+            <a href="#pintores" class="botoncategorias">
+              <img
+                src="https://i.ibb.co/5kP23P9/Pintores.png"
+                alt="Pintor"
+              ></img>
+            </a>
+          </Link>
         </div>
-        <div class="categorias2">
+        <div class="categorias2" onClick={alertLogged}>
           <a href="#carpinteros" class="botoncategorias">
             <img
               src="https://i.ibb.co/3SB9f4p/Carpinteros.png"
-              alt="Carpinteros"
+              alt="Carpintero"
             ></img>
           </a>
           <a href="#electricistas" class="botoncategorias">
             <img
               src="https://i.ibb.co/rM6Qr0X/Electricistas.png"
-              alt="Electricistas"
+              alt="Electricista"
             ></img>
           </a>
           <a href="#albaniles" class="botoncategorias">
             <img
               src="https://i.ibb.co/jWxsHQ4/Alba-iles.png"
-              alt="Albañiles"
+              alt="Albañil"
             ></img>
           </a>
         </div>

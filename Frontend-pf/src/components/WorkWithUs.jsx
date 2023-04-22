@@ -20,7 +20,6 @@ const WorkWithUs = () => {
       <br />
       <br />
       <br />
-      <br />
       <div className="content">
         <div className="row">
           <div className="col-md-4 mx-auto">
@@ -120,16 +119,16 @@ const WorkWithUs = () => {
                     />
                   </div>
                   <br></br>
-                  <div class="mb-3">
+                  <div className="mb-3">
                     <label for="formFile" class="form-label">
                       Adjuntar CV
                     </label>
-                    <input class="form-control" type="file" id="formFile" />
+                    <input className="form-control" type="file" id="formFile" />
                   </div>
 
-                  <div class="form-floating">
+                  <div className="form-floating">
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       placeholder="Leave a comment here"
                       id="floatingTextarea2"
                     ></textarea>
