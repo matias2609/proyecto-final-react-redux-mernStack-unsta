@@ -8,8 +8,7 @@ const WorkWithUs = () => {
     e.preventDefault();
     Swal.fire({
       icon: "success",
-      title:
-        "En breve nuestro equipo lo estará contactando para validar los datos ingresados, esté atento a su buzón de mail",
+      text: "En breve nuestro equipo lo estará contactando para validar los datos ingresados, esté atento a su buzón de mail",
     });
     setTimeout(() => {
       navigate("/");

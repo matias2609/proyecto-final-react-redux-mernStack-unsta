@@ -25,7 +25,40 @@ const getProfessionalById = async (req, res) => {
   }
 };
 
+//add professional
+const addProfessional = async (req, res) => {
+  try {
+    const {
+      email,
+      nombre,
+      apellido,
+      profesion,
+      foto,
+      calificacion,
+      disponible,
+      contacto,
+      comentarios,
+    } = req.body;
+    const addProfessional = new Professional({
+      email,
+      nombre,
+      apellido,
+      profesion,
+      foto,
+      calificacion,
+      disponible,
+      contacto,
+      comentarios,
+    });
+    await addProfessional.save();
+    return res.status(201).json({ ok: true });
+  } catch (error) {
+    return res.status(501).json({ error: "Problema en el Servidor" });
+  }
+};
+
 module.exports = {
   getProfessionalDetails,
   getProfessionalById,
+  addProfessional,
 };

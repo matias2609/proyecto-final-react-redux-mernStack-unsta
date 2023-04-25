@@ -3,7 +3,6 @@ const DashHeader = () => {
     <>
       <br />
       <br />
-      <h5 className="p-2">Busqueda de Profesional:</h5>
     </>
   );
 };

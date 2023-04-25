@@ -1,6 +1,16 @@
 body {
   margin-top: 60px;
   font-family: Inter, sans-serif;
+  overflow-x: hidden;
+}
+
+.fa-star {
+  color: #ffd700;
+}
+
+.comments-container {
+  height: 1000px;
+  overflow-y: scroll;
 }
 
 .section {
@@ -26,8 +36,8 @@ body {
   margin-bottom: 0px;
   padding: 40px;
   height: 60px;
-  border-bottom: 1px solid #ccc;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid #ccc;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
 }
 
 .nav li {

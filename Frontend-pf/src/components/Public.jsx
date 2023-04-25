@@ -15,7 +15,7 @@ const Public = () => {
     if (user === false) {
       Swal.fire({
         icon: "error",
-        title: "Deber haber iniciado sesión para ver los profesionales",
+        text: "Deber haber iniciado sesión para ver a los profesionales disponibles",
       });
       navigate("/");
     }
@@ -67,24 +67,30 @@ const Public = () => {
           </Link>
         </div>
         <div class="categorias2" onClick={alertLogged}>
-          <a href="#carpinteros" class="botoncategorias">
-            <img
-              src="https://i.ibb.co/3SB9f4p/Carpinteros.png"
-              alt="Carpintero"
-            ></img>
-          </a>
-          <a href="#electricistas" class="botoncategorias">
-            <img
-              src="https://i.ibb.co/rM6Qr0X/Electricistas.png"
-              alt="Electricista"
-            ></img>
-          </a>
-          <a href="#albaniles" class="botoncategorias">
-            <img
-              src="https://i.ibb.co/jWxsHQ4/Alba-iles.png"
-              alt="Albañil"
-            ></img>
-          </a>
+          <Link to={`/dash/professionals/Carpintero`}>
+            <a href="#carpinteros" class="botoncategorias">
+              <img
+                src="https://i.ibb.co/3SB9f4p/Carpinteros.png"
+                alt="Carpintero"
+              ></img>
+            </a>
+          </Link>
+          <Link to={`/dash/professionals/Electricista`}>
+            <a href="#electricistas" class="botoncategorias">
+              <img
+                src="https://i.ibb.co/rM6Qr0X/Electricistas.png"
+                alt="Electricista"
+              ></img>
+            </a>
+          </Link>
+          <Link to={`/dash/professionals/Albañil`}>
+            <a href="#albaniles" class="botoncategorias">
+              <img
+                src="https://i.ibb.co/jWxsHQ4/Alba-iles.png"
+                alt="Albañil"
+              ></img>
+            </a>
+          </Link>
         </div>
       </section>
       <br />

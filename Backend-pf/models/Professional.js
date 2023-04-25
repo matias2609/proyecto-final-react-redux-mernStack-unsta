@@ -10,27 +10,27 @@ const professionalSchema = new mongoose.Schema(
       lowercase: true,
       index: { unique: true },
     },
-    nombre_apellido: {
+    nombre: {
       type: String,
       required: true,
     },
-    direccion: {
+    apellido: {
       type: String,
       required: true,
     },
-    ocupacion: {
+    profesion: {
       type: String,
       required: true,
+    },
+    foto: {
+      type: String,
+      default: null,
     },
     calificacion: {
       type: String,
       required: false,
     },
-    disponibilidad: {
-      type: String,
-      required: false,
-    },
-    area: {
+    disponible: {
       type: String,
       required: false,
     },
@@ -48,7 +48,15 @@ const professionalSchema = new mongoose.Schema(
           type: String,
           required: false,
         },
-        fecha: {
+        nombrePersona: {
+          type: String,
+          required: false,
+        },
+        fotoPersona: {
+          type: String,
+          default: null,
+        },
+        calificacionComentario: {
           type: String,
           required: false,
         },

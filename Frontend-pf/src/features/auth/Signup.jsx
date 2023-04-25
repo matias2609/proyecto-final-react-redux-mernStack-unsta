@@ -66,8 +66,7 @@ export const Signup = () => {
       });
       Swal.fire({
         icon: "success",
-        title:
-          "Hemos enviado un mail al correo proporcionado, revisar por favor",
+        text: "Hemos enviado un mail al correo proporcionado, revisar por favor",
       });
     } catch (error) {
       console.error(error);

@@ -14,6 +14,7 @@ import OlvideMiContraseña from "./components/OlvideMiContraseña";
 import WorkWithUs from "./components/WorkWithUs";
 import NotFound from "./components/NotFound";
 import Professionals from "./components/Professionals";
+import ProfessionalDetails from "./components/ProfessionalsDetails";
 
 function App() {
   useTitle("Datazo.com");
@@ -49,6 +50,15 @@ function App() {
                   </RequireAuthTwo>
                 }
               />
+              <Route
+                path="professionals/:alt/:id"
+                element={
+                  <RequireAuthTwo>
+                    <ProfessionalDetails />
+                  </RequireAuthTwo>
+                }
+              ></Route>
+
               <Route element={<Welcome />} />
             </Route>
             {/* End Dash */}

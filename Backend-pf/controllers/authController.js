@@ -265,6 +265,7 @@ const passwordRecoveryMail = async (req, res) => {
   }
 };
 
+//Route => Verification of Authentication Code
 const verifyVerificationCode = async (req, res) => {
   const { email, verificationCode, newPassword } = req.body;
 
