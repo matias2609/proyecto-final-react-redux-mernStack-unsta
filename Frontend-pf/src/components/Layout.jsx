@@ -11,54 +11,63 @@ const Layout = () => {
 
     return (
       <footer
-        className="footer text-center"
+        class="footer-container footer"
         style={{ position, fontFamily: "Lexend, sans-serif" }}
       >
-        <h4
-          style={{
-            fontFamily: "Lexend, sans-serif",
-            fontWeight: "900",
-            marginTop: "10px",
-          }}
-        >
-          DATAZO
-        </h4>
-        <nav
-          className="nav-footer"
-          style={{ fontFamily: "Lexend, sans-serif", fontWeight: "700" }}
-        >
-          <ul className="ul-footer">
-            <li className="li-footer">
-              <a href="#inicio" className="a-footer">
-                Inicio
-              </a>
-            </li>
-            <li className="li-footer">
-              <a href="/#faqs" className="a-footer">
-                FAQs
-              </a>
-            </li>
-            <li className="li-footer">
-              <NavLink to="/workWithUs" className="a-footer">
-                Trabaja con nosotros
-              </NavLink>
-            </li>
-            <li className="li-footer">
-              <a href="/#categories" className="a-footer">
-                Categorias
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <p style={{ fontFamily: "Lexend, sans-serif", fontWeight: "400" }}>
-          ©Copyright 2023 - UNSTA Datazo App - Todos los derechos reservados.
-        </p>
+        <div class="footer-content">
+          <div class="footer-info">
+            <h1 class="footer-heading">Accesos</h1>
+            <ul class="footer-list">
+              <li className="a-footer">
+                <a href="/#faqs">Preguntas Frecuentes</a>
+              </li>
+              <li className="a-footer">
+                <a href="/workwithus">Trabaja con nosotros!</a>
+              </li>
+              {user ? (
+                <></>
+              ) : (
+                <>
+                  <li className="a-footer">
+                    <a href="/login">Iniciar Sesión</a>
+                  </li>
+                  <li className="a-footer">
+                    <a href="/signup">Registrarme</a>
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
+
+          <div class="footer-access">
+            <h2 class="footer-heading">Contacto</h2>
+            <ul class="footer-list">
+              <li>Teléfono: 381 - 5111111</li>
+              <li>Dirección: Av Perón 2085</li>
+            </ul>
+          </div>
+
+          <div class="footer-contact">
+            <h2
+              class="footer-heading"
+              style={{
+                fontFamily: "Lexend, sans-serif",
+                fontWeight: "900",
+              }}
+            >
+              DATAZO
+            </h2>
+            <p class="footer-description">
+              Copyright © 2023 Datazo | Proyecto Final UNSTA
+            </p>
+          </div>
+        </div>
       </footer>
     );
   }
   return (
     <>
-      <header className="header position-fixed">
+      <header className="header position-fixed mb-0">
         <nav className="nav">
           <NavLink to="/">
             <div id="logo-container">

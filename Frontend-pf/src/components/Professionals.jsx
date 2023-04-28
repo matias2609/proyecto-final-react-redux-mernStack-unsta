@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import useTitle from "../hooks/useTitle";
@@ -9,25 +8,44 @@ import useTitle from "../hooks/useTitle";
 const Professionals = () => {
   const { alt } = useParams();
   const [professionals, setProfessionals] = useState([]);
+  const [filteredProfessionals, setFilteredProfessionals] = useState([]);
+  const [sortBy, setSortBy] = useState("todos");
   useTitle("Buscar Profesionales");
 
-  //GET de profesionales bien el componente se renderice
+  //GET de profesionales cuando el componente se renderice
   useEffect(() => {
     const fetchProfessionals = async () => {
-      await axios
-        .get("http://localhost:3500/professionals")
-        .then((response) => {
-          setProfessionals(response.data.professional);
-        });
+      const response = await axios.get("http://localhost:3500/professionals");
+      setProfessionals(response.data.professional);
     };
 
     fetchProfessionals();
   }, []);
 
   //Filtro para hacer coincidir la ocupacion del profesional y el alt de la imagen
-  const filteredProfessionals = professionals.filter(
-    (professional) => professional.profesion === alt
-  );
+  useEffect(() => {
+    const filtered = professionals.filter(
+      (professional) => professional.profesion === alt
+    );
+    setFilteredProfessionals(filtered);
+  }, [alt, professionals]);
+
+  //Función para ordenar la lista de profesionales según la opción seleccionada en el dropdown
+  const sortProfessionals = (sortOption) => {
+    setSortBy(sortOption);
+    let sortedProfessionals = [...filteredProfessionals];
+
+    if (sortOption === "mejorCalificacion") {
+      sortedProfessionals.sort((a, b) => b.calificacion - a.calificacion);
+    } else if (sortOption === "fechaCercana") {
+      sortedProfessionals.sort(
+        (a, b) => new Date(a.disponible) - new Date(b.disponible)
+      );
+    } else if (sortOption === "todos") {
+      sortedProfessionals = [...professionals];
+    }
+    setFilteredProfessionals(sortedProfessionals);
+  };
 
   function renderStars(numStars) {
     const fullStars = Math.floor(numStars);
@@ -59,27 +77,66 @@ const Professionals = () => {
 
   return (
     <>
-      <div className="row">
+      <div className="row mb-3 p-2">
+        <h3 style={{ marginLeft: "150px" }}>Categoria: {alt}</h3>
+        <div className="col-md-6" style={{ marginLeft: "150px" }}>
+          <div className="dropdown">
+            <label>
+              <h5>
+                <b>Ordenar por</b>
+              </h5>
+            </label>
+            &nbsp;
+            <button
+              className="btn btn-light dropdown-toggle"
+              style={{ color: "#FA7C1F" }}
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            ></button>
+            <div className="dropdown-menu btn-light bg-light">
+              <button
+                className="dropdown-item"
+                onClick={() => sortProfessionals("todos")}
+              >
+                Todos los profesionales
+              </button>
+              <button
+                className="dropdown-item"
+                onClick={() => sortProfessionals("mejorCalificacion")}
+              >
+                Los profesionales mejor calificados
+              </button>
+              <button
+                className="dropdown-item"
+                onClick={() => sortProfessionals("fechaCercana")}
+              >
+                Fecha disponible
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="row p-4" style={{ marginLeft: "116px" }}>
         {filteredProfessionals.map((professional) => (
-          <div className="col-md-4 mb-4 p-4" key={professional._id}>
-            <div className="card bg-light">
-              <div className="card-body container">
+          <div className="col-md-4 mb-4" key={professional.id}>
+            <div className="card h-100 border-0" style={{ width: "25rem" }}>
+              <div className="card-body bg-light">
                 <h5 className="card-title">
                   {professional.nombre} {professional.apellido} -{" "}
                   {professional.profesion}
                 </h5>
-
                 <p className="card-text">
                   Calificación: {renderStars(professional.calificacion)}
                 </p>
                 <p className="card-text">
-                  Disponible: {professional.disponible}
+                  Disponible a partir de:{" "}
+                  {new Date(professional.disponible).toLocaleDateString()}
                 </p>
                 <Link
                   to={`/dash/professionals/${alt}/${professional._id}`}
-                  className="btn btn-secondary"
+                  className="btn btn-light"
                 >
-                  Ver detalles
+                  Ver Perfil
                 </Link>
               </div>
             </div>

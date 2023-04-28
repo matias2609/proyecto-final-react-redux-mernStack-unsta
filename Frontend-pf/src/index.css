@@ -36,7 +36,7 @@ body {
   margin-bottom: 0px;
   padding: 40px;
   height: 60px;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 1px solid #ccc;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
 }
 
@@ -63,8 +63,8 @@ body {
   display: flex;
   position: absolute;
   top: 0px;
-  right: 20px;
-  margin: 15px;
+  right: 122px;
+  margin: 17px;
 }
 
 .button {
@@ -129,26 +129,13 @@ body {
   color: #434343;
   background-color: #921f1f;
 }
-.footer {
-  background-color: #010b40;
-  color: white;
-  margin: 0px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  font-family: Lexend Peta, sans-serif;
-  height: 130px;
-  bottom: 0;
-  width: 100%;
-  overflow-x: hidden;
-  overflow: hidden;
-  bottom: 0;
-}
 
 #logo-container {
   position: absolute;
   padding-top: 12px;
   top: 0;
   left: 10;
+  margin-left: 122px;
   width: 100px;
   height: 100px;
 }
@@ -218,7 +205,7 @@ body {
 }
 
 .presentation {
-  margin-top: 180px;
+  margin-top: 0px;
 }
 
 .moreinfo1 {
@@ -274,4 +261,79 @@ body {
 
 .custom-alert {
   width: 600px;
+}
+
+/*new footer code*/
+.footer-container {
+  background-color: #010b40;
+  padding: 20px 0;
+  margin-left: 122px;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.footer {
+  background-color: #010b40;
+  color: white;
+  margin: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-family: Lexend Peta, sans-serif;
+  height: auto;
+  bottom: 0;
+  width: 100%;
+  overflow-x: hidden;
+  overflow: hidden;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin-left: 160px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: -30px;
+}
+
+.footer-info {
+  width: 250px;
+  margin-right: 50px;
+  margin-bottom: 10px;
+}
+
+.footer-description {
+  margin-top: 0px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.footer-access,
+.footer-contact {
+  width: 250px;
+  margin-bottom: 30px;
+}
+
+.footer-heading {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+.footer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-list li {
+  margin-bottom: 10px;
+}
+
+.footer-list a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.footer-list a:hover {
+  text-decoration: underline;
 }

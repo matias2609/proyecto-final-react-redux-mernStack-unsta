@@ -74,8 +74,11 @@ const ProfessionalDetails = () => {
 
   return (
     <>
-      <div className="row mt-1" style={{ height: "50%" }}>
+      <div className="row mt-0" style={{ height: "50%" }}>
         <div className="col-md-6 offset-md-3">
+          <button className="btn button" onClick={() => window.history.back()}>
+            ↩ VOLVER
+          </button>
           <div
             className="card card-body d-flex flex-column align-items-center border-0"
             style={{ height: "100%" }}
@@ -141,9 +144,9 @@ const ProfessionalDetails = () => {
             professional.comentarios.map((comentario) => (
               <>
                 <div
-                  className="card mt-3 mb-4 position-relative border-0"
+                  className="card mt-3 position-relative border-0"
                   key={comentario._id}
-                  style={{ marginRight: "30px" }}
+                  style={{ marginRight: "30px", marginBottom: "60px" }}
                 >
                   <div className="card-body d-flex">
                     <div className="mr-3">
@@ -168,7 +171,6 @@ const ProfessionalDetails = () => {
                       </p>
                     </div>
                   </div>
-                  <hr />
                 </div>
               </>
             ))}

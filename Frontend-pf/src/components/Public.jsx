@@ -15,7 +15,7 @@ const Public = () => {
     if (user === false) {
       Swal.fire({
         icon: "error",
-        text: "Deber haber iniciado sesión para ver a los profesionales disponibles",
+        text: "Debe haber iniciado sesión para ver a los profesionales disponibles",
       });
       navigate("/");
     }
@@ -23,26 +23,25 @@ const Public = () => {
 
   const content = (
     <>
-      <section id="inicio" className="p-4">
-        <div class="presentation">
-          <img
-            src="https://i.ibb.co/BwmgQJD/Presentacion.png"
-            alt="Presentacion"
-          />
-        </div>
-      </section>
-      <div class="moreinfo1">
-        <a href="#categories" class="btn btn-primary btn-lg">
+      <img
+        src="https://i.ibb.co/gSZTq5v/Head.png"
+        alt="Presentacion"
+        className="presentation d-flex justify-content-center"
+        style={{ width: "1905px", height: "410px" }}
+      />
+
+      <div className="moreinfo1">
+        <a href="#categories" className="btn btn-primary btn-lg">
           Ver Categorías ⤓
         </a>
       </div>
       <section id="categories">
-        <div class="parrafo">
+        <div className="parrafo">
           <h2>¡Buscá según la categoría que necesitás!</h2>
         </div>
-        <div class="categorias1" onClick={alertLogged}>
+        <div className="categorias1" onClick={alertLogged}>
           <Link to={`/dash/professionals/Plomero`}>
-            <a href="#plomeros" class="botoncategorias">
+            <a href="#plomeros" className="botoncategorias">
               <img
                 src="https://i.ibb.co/LzGk2nC/Plomeros.png"
                 alt="Plomero"
@@ -50,7 +49,7 @@ const Public = () => {
             </a>
           </Link>
           <Link to={`/dash/professionals/Gasista`}>
-            <a href="#gasistas" class="botoncategorias">
+            <a href="#gasistas" className="botoncategorias">
               <img
                 src="https://i.ibb.co/zS3KzQ3/Gasistas.png"
                 alt="Gasista"
@@ -58,7 +57,7 @@ const Public = () => {
             </a>
           </Link>
           <Link to={`/dash/professionals/Pintor`}>
-            <a href="#pintores" class="botoncategorias">
+            <a href="#pintores" className="botoncategorias">
               <img
                 src="https://i.ibb.co/5kP23P9/Pintores.png"
                 alt="Pintor"
@@ -66,9 +65,9 @@ const Public = () => {
             </a>
           </Link>
         </div>
-        <div class="categorias2" onClick={alertLogged}>
+        <div className="categorias2" onClick={alertLogged}>
           <Link to={`/dash/professionals/Carpintero`}>
-            <a href="#carpinteros" class="botoncategorias">
+            <a href="#carpinteros" className="botoncategorias">
               <img
                 src="https://i.ibb.co/3SB9f4p/Carpinteros.png"
                 alt="Carpintero"
@@ -76,7 +75,7 @@ const Public = () => {
             </a>
           </Link>
           <Link to={`/dash/professionals/Electricista`}>
-            <a href="#electricistas" class="botoncategorias">
+            <a href="#electricistas" className="botoncategorias">
               <img
                 src="https://i.ibb.co/rM6Qr0X/Electricistas.png"
                 alt="Electricista"
@@ -84,7 +83,7 @@ const Public = () => {
             </a>
           </Link>
           <Link to={`/dash/professionals/Albañil`}>
-            <a href="#albaniles" class="botoncategorias">
+            <a href="#albaniles" className="botoncategorias">
               <img
                 src="https://i.ibb.co/jWxsHQ4/Alba-iles.png"
                 alt="Albañil"
@@ -95,25 +94,25 @@ const Public = () => {
       </section>
       <br />
       <br />
-      <div class="moreinfo2" id="about">
-        <a class="btn btn-primary btn-lg" href="#about">
+      <div className="moreinfo2" id="about">
+        <a className="btn btn-primary btn-lg" href="#about">
           Acerca de nosotros ⤓
         </a>
       </div>
       <br />
       <br />
-      <div class="img-container2">
+      <div className="img-container2">
         <img src="https://i.ibb.co/XDmXrt1/About.png" alt="About" border="0" />
       </div>
       <br />
       <br />
       <br />
-      <div class="moreinfo2" id="faqs">
-        <a class="btn btn-primary btn-lg" href="#faqs">
+      <div className="moreinfo2" id="faqs">
+        <a className="btn btn-primary btn-lg" href="#faqs">
           FAQs ⤓
         </a>
       </div>
-      <div class="img-container2" id="faqs">
+      <div className="img-container2" id="faqs">
         <img src="https://i.ibb.co/GWtMKcT/FAQs.png" alt="FAQs" border="0" />
       </div>
       <br />
