@@ -15,6 +15,7 @@ import WorkWithUs from "./components/WorkWithUs";
 import NotFound from "./components/NotFound";
 import Professionals from "./components/Professionals";
 import ProfessionalDetails from "./components/ProfessionalsDetails";
+import React from "react";
 
 function App() {
   useTitle("Datazo.com");

@@ -1,5 +1,5 @@
 import { Outlet, NavLink, useLocation } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, React } from "react";
 import { UserContext } from "../features/context/UserProvider";
 
 const Layout = () => {
@@ -11,13 +11,13 @@ const Layout = () => {
 
     return (
       <footer
-        class="footer-container footer"
+        className="footer-container footer"
         style={{ position, fontFamily: "Lexend, sans-serif" }}
       >
-        <div class="footer-content">
-          <div class="footer-info">
-            <h1 class="footer-heading">Accesos</h1>
-            <ul class="footer-list">
+        <div className="footer-content mb-1">
+          <div className="footer-info">
+            <h1 className="footer-heading">Accesos</h1>
+            <ul className="footer-list">
               <li className="a-footer">
                 <a href="/#faqs">Preguntas Frecuentes</a>
               </li>
@@ -39,17 +39,17 @@ const Layout = () => {
             </ul>
           </div>
 
-          <div class="footer-access">
-            <h2 class="footer-heading">Contacto</h2>
-            <ul class="footer-list">
+          <div className="footer-access">
+            <h2 className="footer-heading">Contacto</h2>
+            <ul className="footer-list">
               <li>Teléfono: 381 - 5111111</li>
               <li>Dirección: Av Perón 2085</li>
             </ul>
           </div>
 
-          <div class="footer-contact">
+          <div className="footer-contact">
             <h2
-              class="footer-heading"
+              className="footer-heading"
               style={{
                 fontFamily: "Lexend, sans-serif",
                 fontWeight: "900",
@@ -57,7 +57,7 @@ const Layout = () => {
             >
               DATAZO
             </h2>
-            <p class="footer-description">
+            <p className="footer-description">
               Copyright © 2023 Datazo | Proyecto Final UNSTA
             </p>
           </div>
@@ -67,7 +67,7 @@ const Layout = () => {
   }
   return (
     <>
-      <header className="header position-fixed mb-0">
+      <header className="header position-fixed mb-0 ">
         <nav className="nav">
           <NavLink to="/">
             <div id="logo-container">
@@ -135,15 +135,15 @@ const Layout = () => {
                     Cerrar Sesión &nbsp;
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="icon icon-tabler icon-tabler-logout"
+                      className="icon icon-tabler icon-tabler-logout"
                       width="24"
                       height="24"
                       viewBox="0 0 24 24"
-                      stroke-width="2"
+                      strokeWidth="2"
                       stroke="currentColor"
                       fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                       <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
@@ -165,6 +165,7 @@ const Layout = () => {
           </div>
         </nav>
       </header>
+
       <Outlet />
       {<Footer />}
     </>

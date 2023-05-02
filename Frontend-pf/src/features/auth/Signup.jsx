@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, React } from "react";
 import useTitle from "../../hooks/useTitle";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -12,75 +12,129 @@ export const Signup = () => {
     numeroContacto: "",
     email: "",
     password: "",
+    repassword: "",
+  });
+  const [validationErrors, setValidationErrors] = useState({
+    nombre: "",
+    apellido: "",
+    numeroContacto: "",
+    email: "",
+    password: "",
+    repassword: "",
   });
 
-  const [validationError, setValidationError] = useState("");
-
-  const validateForm = () => {
-    const formValues = Object.values(formData);
-    for (let i = 0; i < formValues.length; i++) {
-      if (formValues[i].trim() === "") {
-        setValidationError("Por favor complete todos los campos");
-        return false;
-      }
-    }
-    if (formData.password !== formData.repassword) {
-      setValidationError(
-        "Las contraseñas no coinciden, vuelva a ingresarlas correctamente"
-      );
-      return false;
-    }
-    return true;
-  };
-
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const alert = (validationError) => {
-    Swal.fire({
-      icon: "error",
-      title: validationError,
+    const { name, value } = e.target;
+    let errors = { ...validationErrors };
+    switch (name) {
+      case "nombre":
+        errors.nombre =
+          value.length < 3
+            ? "⚠ Nombre debe tener almenos 3 caracteres de largo"
+            : "";
+        break;
+      case "apellido":
+        errors.apellido =
+          value.length < 3
+            ? "⚠ Apellido debe tener almenos 3 caracteres de largo"
+            : "";
+        break;
+      case "numeroContacto":
+        errors.numeroContacto =
+          value.length < 3
+            ? "⚠ Su numero de telefono debe tener almenos 3 caracteres de largo"
+            : "";
+        break;
+      case "email":
+        errors.email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+          ? ""
+          : "⚠ Formato de email invalido, debe respetar el formato: xxx@xxx.com";
+        break;
+      case "password":
+        errors.password =
+          value.length < 6
+            ? "⚠ La contraseña debe contener más de 6 caracteres"
+            : "";
+        break;
+      case "repassword":
+        errors.repassword =
+          value !== formData.password ? "⚠ Las contraseñas no coinciden!" : "";
+        break;
+      default:
+        break;
+    }
+    setValidationErrors(errors);
+    setFormData({
+      ...formData,
+      [name]: value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
-      return;
-    }
-    try {
-      const response = await axios.post(
-        "http://localhost:3500/auth/register",
-        formData
-      );
-      console.log(response.data);
+    const errors = { ...validationErrors };
 
-      setFormData({
-        nombre: "",
-        apellido: "",
-        numeroContacto: "",
-        email: "",
-        password: "",
-        repassword: "",
-      });
-      Swal.fire({
-        icon: "success",
-        text: "Hemos enviado un mail al correo proporcionado, revisar por favor",
-      });
-    } catch (error) {
-      console.error(error);
+    errors.nombre =
+      formData.nombre.length < 3
+        ? "⚠ Nombre debe tener almenos 3 caracteres de largo"
+        : "";
+    errors.apellido =
+      formData.apellido.length < 3
+        ? "⚠ Apellido debe tener almenos 3 caracteres de largo"
+        : "";
+    errors.numeroContacto =
+      formData.numeroContacto.length < 3
+        ? "⚠ Su numero de telefono debe tener almenos 3 caracteres de largo"
+        : "";
+    errors.email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+      ? ""
+      : "⚠ Formato de email invalido, debe respetar el formato: xxx@xxx.com";
+    errors.password =
+      formData.password.length < 6
+        ? "⚠ La contraseña debe contener más de 6 caracteres"
+        : "";
+    errors.repassword =
+      formData.repassword !== formData.password
+        ? "⚠ Las contraseñas no coinciden!"
+        : "";
+    if (Object.values(errors).every((error) => error === "")) {
+      try {
+        const response = await axios.post(
+          "http://localhost:3500/auth/register",
+          formData
+        );
+        console.log(response);
+        Swal.fire({
+          icon: "success",
+          text: "Hemos enviado un mail al correo proporcionado, revisar por favor",
+        });
+        setFormData({
+          nombre: "",
+          apellido: "",
+          numeroContacto: "",
+          email: "",
+          password: "",
+          repassword: "",
+        });
+      } catch (error) {
+        console.error(error.response.data.error);
+        Swal.fire({
+          icon: "error",
+          text: `${error.response.data.error}`,
+        });
+      }
+    } else {
+      setValidationErrors(errors);
     }
   };
 
   return (
     <>
       <br />
-      {validationError && alert(validationError)}
       <br />
       <br />
       <br />
-      <div className="content mb-2">
+      <div className="content" style={{ marginBottom: "220px" }}>
         <div className="row">
           <div className="col-md-4 mx-auto">
             <div className="card">
@@ -134,83 +188,126 @@ export const Signup = () => {
                 <h6>Completa los campos para registrarte</h6>
               </div>
               <div className="card-body">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} id="signup-form">
                   <div className="form-group">
                     <input
                       type="text"
-                      className="form-control"
+                      className={`form-control mb-3 ${
+                        validationErrors.nombre !== "" ? "is-invalid" : ""
+                      }`}
                       name="nombre"
                       onChange={handleChange}
                       value={formData.nombre}
                       placeholder="Ingrese su nombre"
                       autoComplete="off"
-                      required
+                      isInvalid={validationErrors.nombre !== ""}
                     />
+                    {validationErrors.nombre && (
+                      <p className="error-message text-danger">
+                        {validationErrors.nombre}
+                      </p>
+                    )}
                   </div>
-                  <br></br>
+
                   <div className="form-group">
                     <input
                       type="text"
-                      className="form-control"
+                      className={`form-control mb-3 ${
+                        validationErrors.apellido !== "" ? "is-invalid" : ""
+                      }`}
                       name="apellido"
                       onChange={handleChange}
                       value={formData.apellido}
                       placeholder="Ingrese su apellido"
                       autoComplete="off"
-                      required
+                      isInvalid={validationErrors.apellido !== ""}
                     />
+                    {validationErrors.apellido && (
+                      <p className="error-message text-danger">
+                        {validationErrors.apellido}
+                      </p>
+                    )}
                   </div>
-                  <br></br>
+
                   <div className="form-group">
                     <input
                       type="number"
-                      className="form-control"
+                      className={`form-control mb-3 ${
+                        validationErrors.numeroContacto !== ""
+                          ? "is-invalid"
+                          : ""
+                      }`}
                       name="numeroContacto"
                       onChange={handleChange}
                       value={formData.numeroContacto}
                       placeholder="Ingrese su número de contacto"
                       autoComplete="off"
-                      required
+                      isInvalid={validationErrors.numeroContacto !== ""}
                     />
+                    {validationErrors.numeroContacto && (
+                      <p className="error-message text-danger">
+                        {validationErrors.numeroContacto}
+                      </p>
+                    )}
                   </div>
-                  <br></br>
+
                   <div className="form-group">
                     <input
-                      type="email"
-                      className="form-control"
+                      className={`form-control mb-3 ${
+                        validationErrors.email !== "" ? "is-invalid" : ""
+                      }`}
                       name="email"
                       onChange={handleChange}
                       value={formData.email}
                       placeholder="Ingrese su email"
                       autoComplete="off"
-                      required
+                      isInvalid={validationErrors.email !== ""}
                     />
+                    {validationErrors.email && (
+                      <p className="error-message text-danger">
+                        {validationErrors.email}
+                      </p>
+                    )}
                   </div>
-                  <br></br>
+
                   <div className="form-group">
                     <input
                       type="password"
-                      className="form-control"
+                      className={`form-control mb-3 ${
+                        validationErrors.password !== "" ? "is-invalid" : ""
+                      }`}
                       name="password"
                       onChange={handleChange}
                       value={formData.password}
-                      placeholder="Ingrese su contraseña"
+                      placeholder="Ingrese una contraseña"
                       autoComplete="off"
-                      required
+                      isInvalid={validationErrors.password !== ""}
                     />
+                    {validationErrors.password && (
+                      <p className="error-message text-danger">
+                        {validationErrors.password}
+                      </p>
+                    )}
                   </div>
-                  <br></br>
+
                   <div className="form-group">
                     <input
                       type="password"
-                      className="form-control"
+                      className={`form-control mb-3 ${
+                        validationErrors.repassword !== "" ? "is-invalid" : ""
+                      }`}
                       name="repassword"
                       onChange={handleChange}
                       value={formData.repassword}
-                      placeholder="Ingrese nuevamente su contraseña"
+                      placeholder="Ingrese nuevamente la contraseña"
                       autoComplete="off"
-                      required
+                      isInvalid={validationErrors.repassword !== ""}
                     />
+                    {validationErrors.repassword && (
+                      <p className="error-message text-danger">
+                        {validationErrors.repassword}
+                      </p>
+                    )}
                   </div>
                   <br></br>
                   <button type="submit" className="btn btn-primary btn-block">
@@ -220,7 +317,7 @@ export const Signup = () => {
               </div>
             </div>
           </div>
-          <div className="text-center mt-2">
+          <div className="text-center mt-2 mb-5">
             Ya tienes una cuenta en Datazo?&nbsp;
             <NavLink to="/login">Accede a tu cuenta aquí</NavLink>
           </div>

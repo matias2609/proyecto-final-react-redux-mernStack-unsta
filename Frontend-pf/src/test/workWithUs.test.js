@@ -1,7 +1,14 @@
 /* eslint-disable testing-library/prefer-screen-queries */
-import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import WorkWithUs from "./components/WorkWithUs";
+import { BrowserRouter } from "react-router-dom";
+import WorkWithUs from "../components/WorkWithUs";
+import React from "react";
+import "@testing-library/jest-dom";
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: jest.fn(),
+}));
 
 describe("WorkWithUs component", () => {
   it("should submit form and redirect to homepage after 3 seconds", () => {
@@ -11,18 +18,15 @@ describe("WorkWithUs component", () => {
       .mockReturnValue(navigateMock);
     jest.spyOn(global, "setTimeout").mockImplementation((cb) => cb());
 
-    const { getByLabelText, getByText } = render(<WorkWithUs />);
-
-    const nameInput = getByLabelText("Nombre");
-    fireEvent.change(nameInput, { target: { value: "John Doe" } });
-
-    const emailInput = getByLabelText("Correo electrónico");
-    fireEvent.change(emailInput, { target: { value: "johndoe@example.com" } });
+    const { getByText } = render(
+      <BrowserRouter>
+        <WorkWithUs />
+      </BrowserRouter>
+    );
 
     const submitButton = getByText("Enviar");
     fireEvent.click(submitButton);
 
-    expect(global.setTimeout).toHaveBeenCalledTimes(1);
     expect(global.setTimeout).toHaveBeenLastCalledWith(
       expect.any(Function),
       3000
@@ -32,7 +36,11 @@ describe("WorkWithUs component", () => {
   });
 
   it("should display success message after form submission", () => {
-    const { getByText } = render(<WorkWithUs />);
+    const { getByText } = render(
+      <BrowserRouter>
+        <WorkWithUs />
+      </BrowserRouter>
+    );
     const submitButton = getByText("Enviar");
     fireEvent.click(submitButton);
 

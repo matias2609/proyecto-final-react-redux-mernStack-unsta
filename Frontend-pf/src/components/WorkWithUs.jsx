@@ -19,7 +19,7 @@ const WorkWithUs = () => {
       <br />
       <br />
       <br />
-      <div className="content">
+      <div className="content" style={{ marginBottom: "300px" }}>
         <div className="row">
           <div className="col-md-4 mx-auto">
             <div className="card">
@@ -119,7 +119,7 @@ const WorkWithUs = () => {
                   </div>
                   <br></br>
                   <div className="mb-3">
-                    <label for="formFile" class="form-label">
+                    <label htmlFor="formFile" className="form-label">
                       Adjuntar CV
                     </label>
                     <input className="form-control" type="file" id="formFile" />
@@ -131,7 +131,7 @@ const WorkWithUs = () => {
                       placeholder="Leave a comment here"
                       id="floatingTextarea2"
                     ></textarea>
-                    <label for="floatingTextarea2">
+                    <label htmlFor="floatingTextarea2">
                       Ingrese un mensaje (opcional)
                     </label>
                   </div>

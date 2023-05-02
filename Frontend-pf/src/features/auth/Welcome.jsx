@@ -1,5 +1,6 @@
 import useAuth from "../../hooks/useAuth";
 import useTitle from "../../hooks/useTitle";
+import React from "react";
 
 const Welcome = () => {
   const { nombre, apellido, email, numeroContacto } = useAuth();

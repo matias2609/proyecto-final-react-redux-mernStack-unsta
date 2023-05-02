@@ -49,12 +49,12 @@ const OlvideMiContraseña = () => {
     <div className="card p-4 col-5 position-absolute top-50 start-50 translate-middle d-flex justify-content-center align-items-center">
       {showEmailForm && (
         <>
-          <h2 className="text-center mb-4" for="email">
+          <h2 className="text-center mb-4" htmlFor="email">
             Recuperar contraseña
           </h2>
           <form onSubmit={handlePasswordRecoveryMail}>
             <div className="form-group">
-              <label for="email" className="mb-2">
+              <label htmlFor="email" className="mb-2">
                 Necesitamos que nos proporcione de su email para la recuperacion
                 de contraseña
               </label>

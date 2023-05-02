@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import useTitle from "../hooks/useTitle";
@@ -25,7 +25,7 @@ const ProfessionalDetails = () => {
       const windowHeight = window.innerHeight;
       const containerTop =
         commentsContainer.current.getBoundingClientRect().top;
-      const containerHeight = windowHeight - containerTop - 100; // 100 is an additional margin for the footer
+      const containerHeight = windowHeight - containerTop - 100;
 
       commentsContainer.current.style.height = `${containerHeight}px`;
     }
@@ -74,11 +74,8 @@ const ProfessionalDetails = () => {
 
   return (
     <>
-      <div className="row mt-0" style={{ height: "50%" }}>
+      <div className="row mt-0 position-relative" style={{ height: "60%" }}>
         <div className="col-md-6 offset-md-3">
-          <button className="btn button" onClick={() => window.history.back()}>
-            ↩ VOLVER
-          </button>
           <div
             className="card card-body d-flex flex-column align-items-center border-0"
             style={{ height: "100%" }}
@@ -146,7 +143,7 @@ const ProfessionalDetails = () => {
                 <div
                   className="card mt-3 position-relative border-0"
                   key={comentario._id}
-                  style={{ marginRight: "30px", marginBottom: "60px" }}
+                  style={{ marginRight: "30px", marginBottom: "40px" }}
                 >
                   <div className="card-body d-flex">
                     <div className="mr-3">

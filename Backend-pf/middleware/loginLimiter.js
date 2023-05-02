@@ -5,7 +5,7 @@ const loginLimiter = rateLimit({
   max: 5, // Limit each IP to 5 login requests per `window` per minute
   message: {
     message:
-      "Too many login attempts from this IP, please try again after a 60 second pause",
+      "Demasiados intentos de inicio de sesión, vuelva a intentar luego de 60 seg!",
   },
   handler: (req, res, next, options) => {
     res.status(options.statusCode).send(options.message);

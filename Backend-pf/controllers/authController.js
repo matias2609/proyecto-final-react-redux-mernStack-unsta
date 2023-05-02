@@ -55,7 +55,9 @@ const register = async (req, res) => {
     console.log(error);
     //validación#1
     if (error.code === 11000) {
-      return res.status(400).json({ error: "Ya existe este usuario!" });
+      return res
+        .status(400)
+        .json({ error: "Ya existe un usuario registrado con ese email" });
     }
     return res.status(500).json({ error: "Error de Servidor" });
   }

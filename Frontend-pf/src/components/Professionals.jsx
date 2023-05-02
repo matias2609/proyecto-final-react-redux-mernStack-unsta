@@ -4,6 +4,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import useTitle from "../hooks/useTitle";
+import React from "react";
 
 const Professionals = () => {
   const { alt } = useParams();

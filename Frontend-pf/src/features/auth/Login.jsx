@@ -8,6 +8,7 @@ import useTitle from "../../hooks/useTitle";
 import PulseLoader from "react-spinners/PulseLoader";
 import { UserContext } from "../context/UserProvider";
 import { NavLink } from "react-router-dom";
+import React from "react";
 
 const Login = () => {
   useTitle("Iniciar Sesion");
@@ -77,8 +78,8 @@ const Login = () => {
       <br />
       <br />
       <br />
-      <main>
-        <div className="content ">
+      <main style={{ marginBottom: "270px" }}>
+        <div className="content">
           <div className="row">
             <div className="col-md-4 mx-auto">
               <div className="card mt-4 text-center">

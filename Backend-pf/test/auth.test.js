@@ -4,7 +4,8 @@ const bcrypt = require("bcrypt");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
-it("Suite_1_User_Duplicado", async () => {
+//Tiene que devolver "Ya existe este usuario" al querer registrarse con credenciales ya existentes
+it("Suite_1_Registro_User_Duplicado", async () => {
   const req = {
     body: {
       nombre: "Franco Nicolas",
@@ -26,11 +27,12 @@ it("Suite_1_User_Duplicado", async () => {
   } catch (error) {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      error: "Ya existe este usuario!",
+      error: "Ya existe un usuario registrado con ese email",
     });
   }
 });
 
+//Login exitoso
 it("Suite_2_Login_Valido", async () => {
   const req = {
     body: {
@@ -89,7 +91,8 @@ it("Suite_2_Login_Valido", async () => {
   expect(res.json).toHaveBeenCalledWith({ accessToken: "access_token" });
 });
 
-it("Suite_3_Cuenta_no_confirmada", async () => {
+//Login pero con la cuenta no confirmada
+it("Suite_3_Login_Cuenta_no_confirmada", async () => {
   const req = {
     body: {
       email: "test@test.com",
@@ -121,6 +124,7 @@ it("Suite_3_Cuenta_no_confirmada", async () => {
   });
 });
 
+//No existe esta cuenta
 it("Suite_4_Login_Cuenta_Inexistente", async () => {
   const req = {
     body: {
@@ -143,6 +147,7 @@ it("Suite_4_Login_Cuenta_Inexistente", async () => {
   });
 });
 
+//Login pero con contraseña incorrecta
 it("Suite_5_Login_Contraseña_Incorrecta", async () => {
   const req = {
     body: {

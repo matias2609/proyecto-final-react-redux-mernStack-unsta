@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { useSendLogoutMutation } from "../auth/authApiSlice";
 import { useNavigate } from "react-router-dom";
-
+import React from "react";
 export const UserContext = createContext();
 
 const UserProvider = (props) => {
