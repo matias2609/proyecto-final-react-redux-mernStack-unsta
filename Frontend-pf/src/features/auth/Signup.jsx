@@ -22,6 +22,7 @@ export const Signup = () => {
     password: "",
     repassword: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -70,10 +71,42 @@ export const Signup = () => {
     });
   };
 
+  const validateEmail = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.apilayer.com/email_verification/${formData.email}`,
+        {
+          headers: {
+            apikey: "1euOVmfkxNzi22vlVI69VKxkNPfzeZRB",
+          },
+        }
+      );
+      if (response.data.is_deliverable === false) {
+        Swal.fire({
+          icon: "info",
+          text: "El email que ha propocionado no es valido, ingrese uno valido nuevamente.",
+        });
+        return setFormData({
+          nombre: "",
+          apellido: "",
+          numeroContacto: "",
+          email: "",
+          password: "",
+          repassword: "",
+        });
+      } else {
+        return true;
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const errors = { ...validationErrors };
-
     errors.nombre =
       formData.nombre.length < 3
         ? "⚠ Nombre debe tener almenos 3 caracteres de largo"
@@ -86,9 +119,11 @@ export const Signup = () => {
       formData.numeroContacto.length < 3
         ? "⚠ Su numero de telefono debe tener almenos 3 caracteres de largo"
         : "";
-    errors.email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
-      ? ""
-      : "⚠ Formato de email invalido, debe respetar el formato: xxx@xxx.com";
+    errors.email =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) &&
+      (await validateEmail())
+        ? ""
+        : "⚠ Formato de email invalido, debe respetar el formato: xxx@xxx.com";
     errors.password =
       formData.password.length < 6
         ? "⚠ La contraseña debe contener más de 6 caracteres"
@@ -122,10 +157,19 @@ export const Signup = () => {
           icon: "error",
           text: `${error.response.data.error}`,
         });
+        setFormData({
+          nombre: "",
+          apellido: "",
+          numeroContacto: "",
+          email: "",
+          password: "",
+          repassword: "",
+        });
       }
     } else {
       setValidationErrors(errors);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -134,7 +178,8 @@ export const Signup = () => {
       <br />
       <br />
       <br />
-      <div className="content" style={{ marginBottom: "220px" }}>
+
+      <div className="content" style={{ marginBottom: "250px" }}>
         <div className="row">
           <div className="col-md-4 mx-auto">
             <div className="card">
@@ -186,6 +231,11 @@ export const Signup = () => {
                   </svg>
                 </div>
                 <h6>Completa los campos para registrarte</h6>
+                {isLoading && (
+                  <div class="spinner-border text-center" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                )}
               </div>
               <div className="card-body">
                 <form onSubmit={handleSubmit} id="signup-form">
@@ -231,6 +281,7 @@ export const Signup = () => {
 
                   <div className="form-group">
                     <input
+                      placeholder="Ingrese su numero de telefono"
                       type="number"
                       className={`form-control mb-3 ${
                         validationErrors.numeroContacto !== ""
@@ -240,7 +291,6 @@ export const Signup = () => {
                       name="numeroContacto"
                       onChange={handleChange}
                       value={formData.numeroContacto}
-                      placeholder="Ingrese su número de contacto"
                       autoComplete="off"
                       isInvalid={validationErrors.numeroContacto !== ""}
                     />

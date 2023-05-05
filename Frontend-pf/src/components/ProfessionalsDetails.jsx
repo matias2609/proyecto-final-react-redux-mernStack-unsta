@@ -135,7 +135,11 @@ const ProfessionalDetails = () => {
             : ""}
         </h5>
       )}
-      <div className="row mt-2 comments-container p-2" ref={commentsContainer}>
+      <div
+        className="row mt-2 comments-container p-2"
+        ref={commentsContainer}
+        style={{ marginBottom: "400px" }}
+      >
         <div className="col-md-6 offset-md-3">
           {professional.comentarios &&
             professional.comentarios.map((comentario) => (
