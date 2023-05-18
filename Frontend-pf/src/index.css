@@ -11,6 +11,35 @@ body {
   color: #ffd700;
 }
 
+.head {
+  position: relative;
+  display: inline-block;
+}
+.image-text {
+  position: absolute;
+  top: 4.2vw;
+  left: 3.5vw;
+  margin: 0px;
+  color: #fff;
+  font-size: 3.5vw;
+  font-weight: bold;
+}
+
+.categorias-card {
+  margin-bottom: 15px;
+}
+
+.categories-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 85px;
+}
+
+.categories-container img {
+  max-width: 100%;
+  height: auto;
+}
+
 .comments-container {
   height: 100%;
   overflow-y: scroll;
@@ -273,17 +302,26 @@ body {
 .card-container {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .card-container img {
   max-width: 100%;
   height: auto;
+  margin-right: 25px;
+}
+@media screen and (max-width: 932px) {
+  .card-container img {
+    max-width: 100%;
+    height: auto;
+    margin-right: 0px;
+  }
 }
 
 /*new footer code*/
 .footer-container {
   background-color: #010b40;
-
+  height: auto;
   padding: 20px 0;
   margin-left: 122px;
   font-size: 14px;
@@ -306,6 +344,7 @@ body {
 .footer-content {
   max-width: 1200px;
   margin-left: 160px;
+  height: auto;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -405,8 +444,13 @@ input[type="number"]::-webkit-outer-spin-button {
 .mobile-nav {
   display: none;
 }
-
-@media screen and (max-width: 768px) {
+.profile-container-2 {
+  display: none;
+}
+.perfiles-similares-2 {
+  display: none;
+}
+@media screen and (max-width: 769px) {
   footer {
     display: none;
   }
@@ -435,6 +479,12 @@ input[type="number"]::-webkit-outer-spin-button {
     display: flex;
     flex-direction: column;
     left: 0;
+    flex-wrap: wrap;
+    margin-right: 10px;
+  }
+  .categorias-div .col-2 {
+    flex: 0 0 auto;
+    margin-bottom: 15px;
   }
   .botoncategorias {
     margin-left: 255px;
@@ -444,8 +494,21 @@ input[type="number"]::-webkit-outer-spin-button {
     margin-left: 20px;
     width: auto;
   }
+
+  .perfiles-similares {
+    display: none;
+  }
+  .profile-container {
+    display: none;
+  }
+  .profile-container-2 {
+    display: flex;
+  }
+  .card-title {
+    width: 100%;
+  }
 }
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 459px) {
   footer {
     display: none;
   }
@@ -479,6 +542,13 @@ input[type="number"]::-webkit-outer-spin-button {
     display: flex;
     flex-direction: column;
   }
+
+  .card-title {
+    width: 100%;
+  }
+  .col-md-6 {
+    width: 100%;
+  }
 }
 @media screen and (max-width: 380px) {
   .botoncategorias {
@@ -486,6 +556,12 @@ input[type="number"]::-webkit-outer-spin-button {
   }
   .parrafo {
     margin-left: 55px;
+  }
+  #professionals {
+    margin-left: 0;
+    .row {
+      padding-left: 0;
+    }
   }
 }
 @media screen and (width: 1440px) {

@@ -45,9 +45,10 @@ const Login = () => {
       dispatch(setCredentials({ accessToken }));
       setEmail("");
       setPassword("");
-      signIn(true); //from userProvider of UserContext
       setPersist(true);
-      navigate("/");
+      signIn(true); //from userProvider of UserContext
+
+      setTimeout(navigate("/"), 10000);
     } catch (err) {
       if (!err.status) {
         setErrMsg("Sin Respuesta de Servidor");

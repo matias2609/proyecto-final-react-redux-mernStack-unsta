@@ -29,7 +29,7 @@ const register = async (req, res) => {
     await user.save();
     const msg = {
       to: user.email, // El correo electrónico del destinatario
-      from: "nicholas0810152015@gmail.com", // El correo electrónico del remitente
+      from: "soportetecnicodatazo@gmail.com", // El correo electrónico del remitente
       subject: "Verificacion de Usuario Datazo",
       html: `<a href="http://localhost:3500/auth/${user.tokenConfirm}">Haga click aquí para verificar su cuenta</a>
             <p>⚠ Aguarda un siguiente mail avisandote que has confirmado correctamente su cuenta una vez haya hecho click en el link!</p>`,
@@ -75,17 +75,11 @@ const confirmarCuenta = async (req, res) => {
     user.tokenConfirm = null;
 
     await user.save();
-    //Messsage
-    res.redirect("http://localhost:3000/login");
-    const response = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ ok: "Cuenta verificada. Ya puedes iniciar sesion!" });
-      }, 3000);
-    });
-    //sendgrid mail confirm
+
+    // sendgrid mail confirm
     const msg = {
-      to: user.email, // El correo electrónico del destinatario
-      from: "nicholas0810152015@gmail.com", // El correo electrónico del remitente
+      to: user.email,
+      from: "soportetecnicodatazo@gmail.com",
       subject: "Verificacion de Usuario Datazo",
       html: `${user.nombre} ${user.apellido} tu cuenta ha sido confirmada correctamente, ya puedes iniciar sesion`,
     };
@@ -93,13 +87,44 @@ const confirmarCuenta = async (req, res) => {
       .send(msg)
       .then(() => console.log("La confirmación de la cuenta ha sido exitosa!"))
       .catch((error) => console.error(error));
+
+    const msgWelcome = {
+      to: user.email,
+      from: "soportetecnicodatazo@gmail.com",
+      subject: "Bienvenid@ a Datazo!",
+      html: `<p>¡Hola! <b>${user.nombre} ${user.apellido}</b></p>
+  
+        <p>¡Bienvenido/a! Estamos encantados de que te hayas unido a nuestra plataforma para encontrar a los mejores profesionales de oficio. Regístrate o inicia sesión para empezar a explorar nuestro catálogo.</p>
+        
+        <p>Si necesitas ayuda, contáctanos.</p>
+        
+        <p>¡Gracias por unirte a nuestra comunidad!</p>
+        
+        <p>Saludos,</p>
+        
+        <p>El equipo de Datazo.com</p>`,
+    };
+    sgMail
+      .send(msgWelcome)
+      .then(() => {
+        console.log("Mail de bienvenida enviado");
+        res.redirect("http://localhost:3000/login");
+      })
+      .catch((error) => console.error(error));
+
+    const response = new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ ok: "Cuenta verificada. Ya puedes iniciar sesión!" });
+      }, 3000);
+    });
+
     return res.json(await response);
   } catch (error) {
-    res.json({ error });
+    res.json({ ok: "Cuenta Verificada" });
     return res.redirect("/auth/login");
-    // return res.json({ error: error.message });
   }
 };
+
 //}
 
 // @desc Login
@@ -238,7 +263,7 @@ const passwordRecoveryMail = async (req, res) => {
   try {
     const msg = {
       to: user.email,
-      from: "nicholas0810152015@gmail.com",
+      from: "soportetecnicodatazo@gmail.com",
       subject: "Recuperación de contraseña | Datazo",
       html: `
       <p>Estás recibiendo este correo electrónico porque solicitaste recuperar tu contraseña en nuestra aplicación.</p>
@@ -291,7 +316,7 @@ const verifyVerificationCode = async (req, res) => {
 
   const msg = {
     to: user.email,
-    from: "nicholas0810152015@gmail.com",
+    from: "soportetecnicodatazo@gmail.com",
     subject: "Verificacion Exitosa",
     html: `
     <p>Tu contraseña ha sido actualizada correctamente, gracias por confiar en nosotros!.</p>

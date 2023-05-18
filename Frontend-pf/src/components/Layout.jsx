@@ -7,8 +7,17 @@ const Layout = () => {
 
   function Footer() {
     const location = useLocation();
-    const position = location.pathname === "/" ? "relative" : "fixed";
-
+    const position = location.pathname === "/" ? "relative" : "relative";
+    const { pathname } = location;
+    const hideFooter = [
+      "/signup",
+      "/login",
+      "/workWithUs",
+      "/login/missPassword",
+    ].includes(pathname);
+    if (hideFooter) {
+      return null;
+    }
     return (
       <footer
         className="footer-container footer"

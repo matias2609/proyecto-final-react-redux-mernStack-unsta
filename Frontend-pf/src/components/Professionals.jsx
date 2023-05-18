@@ -10,6 +10,7 @@ const Professionals = () => {
   const { alt } = useParams();
   const [professionals, setProfessionals] = useState([]);
   const [filteredProfessionals, setFilteredProfessionals] = useState([]);
+  // eslint-disable-next-line
   const [sortBy, setSortBy] = useState("todos");
   useTitle("Buscar Profesionales");
 
@@ -43,7 +44,7 @@ const Professionals = () => {
         (a, b) => new Date(a.disponible) - new Date(b.disponible)
       );
     } else if (sortOption === "todos") {
-      sortedProfessionals = [...professionals];
+      sortedProfessionals = [...filteredProfessionals];
     }
     setFilteredProfessionals(sortedProfessionals);
   };
@@ -80,14 +81,30 @@ const Professionals = () => {
     <>
       {filteredProfessionals.length > 0 ? (
         <>
-          <div style={{ marginBottom: "400px" }}>
+          <div style={{ marginBottom: "450px" }} id="professionals">
             <div className="row mb-3 p-2">
-              <h3 style={{ marginLeft: "150px" }}>Categoria: {alt}</h3>
+              <h3
+                style={{
+                  marginLeft: "150px",
+                  fontFamily: "Lexend",
+                  fontWeight: "700",
+                  marginBottom: "10px",
+                }}
+              >
+                Categoria: {alt}
+              </h3>
               <div className="col-md-6" style={{ marginLeft: "150px" }}>
                 <div className="dropdown">
                   <label>
                     <h5>
-                      <b>Ordenar por</b>
+                      <b
+                        style={{
+                          fontFamily: "Lexend",
+                          fontWeight: "400",
+                        }}
+                      >
+                        Ordenar por
+                      </b>
                     </h5>
                   </label>
                   &nbsp;
@@ -120,91 +137,79 @@ const Professionals = () => {
                 </div>
               </div>
             </div>
-            <div className="container">
+            <div style={{ marginLeft: "125px" }}>
               <div className="row">
-                {filteredProfessionals.map((professional) => (
-                  <div className="col-12 col-md-4 mb-4" key={professional.id}>
-                    <div className="card h-100 border-0">
-                      <div className="card-body bg-light">
-                        <h5 className="card-title">
-                          {professional.nombre} {professional.apellido} -{" "}
-                          {professional.profesion}
-                        </h5>
-                        <p className="card-text">
-                          Calificación: {renderStars(professional.calificacion)}
-                        </p>
-                        <p className="card-text">
-                          Disponible a partir de:{" "}
-                          {new Date(
-                            professional.disponible
-                          ).toLocaleDateString()}
-                        </p>
-                        <Link
-                          to={`/dash/professionals/${alt}/${professional._id}`}
-                          className="btn btn-light"
-                        >
-                          Ver Perfil
-                        </Link>
+                <div className="row">
+                  {filteredProfessionals.map((professional) => (
+                    <div
+                      className="col-lg-4 col-md-6 col-sm-12 mb-5"
+                      key={professional.id}
+                    >
+                      <div className="card-body">
+                        <div className="d-flex align-items-center">
+                          <img
+                            src={professional.foto}
+                            alt="FotoPerfil"
+                            className="rounded-circle mr-3"
+                            style={{
+                              height: "70px",
+                              width: "70px",
+                              objectFit: "cover",
+                              marginRight: "10px",
+                              marginBottom: "20px",
+                            }}
+                          />
+                          <div>
+                            <h5
+                              className="card-title"
+                              style={{
+                                fontFamily: "Lexend",
+                                fontWeight: "400",
+                              }}
+                            >
+                              <Link
+                                to={`/dash/professionals/${alt}/${professional._id}`}
+                                style={{
+                                  color: "black",
+                                  textDecoration: "none",
+                                }}
+                                className="linktoprof"
+                              >
+                                {professional.nombre} {professional.apellido} -{" "}
+                                {professional.profesion}
+                              </Link>
+                            </h5>
+                            <p
+                              className="card-text"
+                              style={{
+                                fontFamily: "Lexend",
+                                fontWeight: "200",
+                              }}
+                            >
+                              Disponible desde{" "}
+                              {new Date(
+                                professional.disponible
+                              ).toLocaleDateString()}
+                            </p>
+                            <p className="card-text">
+                              {renderStars(professional.calificacion)}
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </>
       ) : (
-        <h3 className="container">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="icon icon-tabler icon-tabler-barrier-block"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-            <path d="M4 7m0 1a1 1 0 0 1 1 -1h14a1 1 0 0 1 1 1v7a1 1 0 0 1 -1 1h-14a1 1 0 0 1 -1 -1z"></path>
-            <path d="M7 16v4"></path>
-            <path d="M7.5 16l9 -9"></path>
-            <path d="M13.5 16l6.5 -6.5"></path>
-            <path d="M4 13.5l6.5 -6.5"></path>
-            <path d="M17 16v4"></path>
-            <path d="M5 20h4"></path>
-            <path d="M15 20h4"></path>
-            <path d="M17 7v-2"></path>
-            <path d="M7 7v-2"></path>
-          </svg>{" "}
-          Pagina en Construcción{" "}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="icon icon-tabler icon-tabler-barrier-block"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-            <path d="M4 7m0 1a1 1 0 0 1 1 -1h14a1 1 0 0 1 1 1v7a1 1 0 0 1 -1 1h-14a1 1 0 0 1 -1 -1z"></path>
-            <path d="M7 16v4"></path>
-            <path d="M7.5 16l9 -9"></path>
-            <path d="M13.5 16l6.5 -6.5"></path>
-            <path d="M4 13.5l6.5 -6.5"></path>
-            <path d="M17 16v4"></path>
-            <path d="M5 20h4"></path>
-            <path d="M15 20h4"></path>
-            <path d="M17 7v-2"></path>
-            <path d="M7 7v-2"></path>
-          </svg>
-        </h3>
+        <div className="container" style={{ marginBottom: "700px" }}>
+          <div className="d-flex justify-content-center top-50 start-0 translate-middle-y">
+            <div className="spinner-border" role="status"></div>
+          </div>
+        </div>
       )}
     </>
   );
