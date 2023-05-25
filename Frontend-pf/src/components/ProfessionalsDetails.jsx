@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +14,9 @@ import {
   PDFViewer,
   Image,
 } from "@react-pdf/renderer";
+import useAuth from "../hooks/useAuth";
+import Swal from "sweetalert2";
+import api from "../app/api/api";
 
 const CVDocument = ({ professional }) => {
   const styles = StyleSheet.create({
@@ -113,10 +115,6 @@ const CVDocument = ({ professional }) => {
               <Text style={styles.title}>{professional.profesion}</Text>
             </Text>
 
-            <Text style={styles.subtitle}>Email: {professional.email}</Text>
-            <Text style={styles.subtitle}>
-              Celular: {professional.contacto}
-            </Text>
             <Text style={styles.subtitle}>
               {professional.zona} - Yerba Buena
             </Text>
@@ -192,6 +190,7 @@ const ProfessionalDetails = () => {
   const [professionals, setProfessionals] = useState([]);
   const [filteredProfessionals, setFilteredProfessionals] = useState([]);
   const [showPDF, setShowPDF] = useState(false);
+  const { nombre, apellido, email } = useAuth();
 
   const mostrarPDF = () => {
     setShowPDF(true);
@@ -204,14 +203,14 @@ const ProfessionalDetails = () => {
   useTitle("Perfil Profesional");
 
   useEffect(() => {
-    axios.get(`http://localhost:3500/professionals/${id}`).then((response) => {
+    api.get(`/professionals/${id}`).then((response) => {
       setProfessional(response.data);
     });
   }, [id]);
   //GET de profesionales cuando el componente se renderice
   useEffect(() => {
     const fetchProfessionals = async () => {
-      const response = await axios.get("http://localhost:3500/professionals");
+      const response = await api.get("/professionals");
       setProfessionals(response.data.professional);
     };
 
@@ -257,8 +256,21 @@ const ProfessionalDetails = () => {
 
   const rating = Math.round(professional.calificacion * 2) / 2;
 
-  const contactar = () => {
-    alert("Funcionalidad para otro sprint");
+  const contactar = async (contactoProf, emailProf) => {
+    await api.post(`/professionals/contactHim/${id}`, {
+      nombreCliente: nombre,
+      apellidoCliente: apellido,
+      emailCliente: email,
+    });
+    Swal.fire({
+      html: `<h3>Datos de Contacto:</h3> <br/> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-phone-call" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+      <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"></path>
+      <path d="M15 7a2 2 0 0 1 2 2"></path>
+      <path d="M15 3a6 6 0 0 1 6 6"></path>
+   </svg> Celular: <b>${contactoProf}</b> `,
+      confirmButtonText: "Aceptar",
+    });
   };
 
   return (
@@ -449,7 +461,9 @@ const ProfessionalDetails = () => {
               </h6>
               <div className="container d-flex justify-content-end">
                 <button
-                  onClick={contactar}
+                  onClick={() =>
+                    contactar(professional.contacto, professional.email)
+                  }
                   style={{
                     fontFamily: "Lexend",
                     fontWeight: "400",
@@ -559,7 +573,9 @@ const ProfessionalDetails = () => {
               </h6>
               <div className="container d-flex justify-content-end">
                 <button
-                  onClick={contactar}
+                  onClick={() =>
+                    contactar(professional.contacto, professional.email)
+                  }
                   style={{
                     fontFamily: "Lexend",
                     color: "#ffff",

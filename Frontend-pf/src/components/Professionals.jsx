@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import useTitle from "../hooks/useTitle";
 import React from "react";
-
+import api from "../app/api/api";
 const Professionals = () => {
   const { alt } = useParams();
   const [professionals, setProfessionals] = useState([]);
@@ -17,11 +16,15 @@ const Professionals = () => {
   //GET de profesionales cuando el componente se renderice
   useEffect(() => {
     const fetchProfessionals = async () => {
-      const response = await axios.get("http://localhost:3500/professionals");
+      const response = await api.get("/professionals");
       setProfessionals(response.data.professional);
     };
 
     fetchProfessionals();
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
   }, []);
 
   //Filtro para hacer coincidir la ocupacion del profesional y el alt de la imagen

@@ -3,6 +3,7 @@ import useTitle from "../../hooks/useTitle";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { NavLink } from "react-router-dom";
+import api from "../../app/api/api";
 
 export const Signup = () => {
   useTitle("Registro de Usuario");
@@ -134,10 +135,7 @@ export const Signup = () => {
         : "";
     if (Object.values(errors).every((error) => error === "")) {
       try {
-        const response = await axios.post(
-          "http://localhost:3500/auth/register",
-          formData
-        );
+        const response = await api.post("/auth/register", formData);
         console.log(response);
         Swal.fire({
           icon: "success",

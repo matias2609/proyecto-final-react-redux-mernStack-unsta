@@ -3,7 +3,6 @@ import Layout from "./components/Layout";
 import Public from "./components/Public";
 import Login from "./features/auth/Login";
 import DashLayout from "./components/DashLayout";
-import Welcome from "./features/auth/Welcome";
 import PersistLogin from "./features/auth/PersistLogin";
 import RequireAuth from "./features/auth/RequireAuth";
 import { ROLES } from "./config/roles";
@@ -15,7 +14,9 @@ import WorkWithUs from "./components/WorkWithUs";
 import NotFound from "./components/NotFound";
 import Professionals from "./components/Professionals";
 import ProfessionalDetails from "./components/ProfessionalsDetails";
+import ContactRegister from "./components/ContactRegister";
 import React from "react";
+import ComentarYCalificar from "./components/ComentarYCalificar";
 
 function App() {
   useTitle("Datazo.com");
@@ -59,8 +60,22 @@ function App() {
                   </RequireAuthTwo>
                 }
               ></Route>
-
-              <Route element={<Welcome />} />
+              <Route
+                path="professionals/:alt/:id/:token"
+                element={
+                  <RequireAuthTwo>
+                    <ContactRegister />
+                  </RequireAuthTwo>
+                }
+              ></Route>
+              <Route
+                path="professionals/:alt/:id/:token/calificacion"
+                element={
+                  <RequireAuthTwo>
+                    <ComentarYCalificar />
+                  </RequireAuthTwo>
+                }
+              ></Route>
             </Route>
             {/* End Dash */}
           </Route>
