@@ -10,6 +10,31 @@ const generateToken = (email) => {
   const token = jwt.sign({ email }, secretKey, { expiresIn: "1h" });
   return token;
 };
+//verify expiration of token xD
+const checkIfTokenExpired = (token) => {
+  try {
+    const secretKey = "shhhhhh";
+    const decodedToken = jwt.verify(token, secretKey);
+    const expiryDate = new Date(decodedToken.exp * 1000);
+
+    // Obtén la fecha actual
+    const currentDate = new Date();
+
+    // Compara la fecha actual con la fecha de expiración del token
+    if (currentDate > expiryDate) {
+      // El token ha expirado
+      return true;
+    }
+
+    // El token no ha expirado
+    return false;
+  } catch (error) {
+    // Ocurrió un error al verificar el token
+    // Aquí puedes manejar el error según tus necesidades
+    console.error("Error al verificar el token:", error);
+    return true; // Consideramos que el token ha expirado en caso de error
+  }
+};
 
 //get all professionals
 const getProfessionalDetails = async (req, res) => {
@@ -81,7 +106,7 @@ const addProfessional = async (req, res) => {
 //add comment
 const addComment = async (req, res) => {
   const { nombrePersona, descripcion, calificacionComentario } = req.body;
-  const professionalId = req.params.id;
+  const { professionalId } = req.params.id;
 
   try {
     const professional = await Professional.findById(professionalId);
@@ -151,7 +176,11 @@ const didYouContactHim = async (req, res) => {
       to: emailCliente,
       from: "soportetecnicodatazo@gmail.com",
       subject: "Has contactado un profesional",
-      html: `Hola ${nombreCliente} ${apellidoCliente}, ¿has podido contactarte con ${nombre} ${apellido} quien se desempeña como ${profesion}? Si es así, <a href="${link}">visita este enlace</a>, de lo contrario, ignora este mail`,
+      html: `<p>Estimado(a) ${nombreCliente} ${apellidoCliente},</p>
+      <p>Agradecemos tu interés en contactar a ${nombre} ${apellido}. Si ya estableciste el contacto, completa tu experiencia aquí: <a href="${link}">Haz click aquí!</a>. Si aún no lo lograste, sigue explorando nuestro catálogo completo: <a href="https://datazotest.netlify.app/dash/professionals/${alt}">Catálogo</a>.</p>
+      <br>
+      <p>Atentamente,</p>
+      <img src="https://i.ibb.co/s5M2hB8/datazologo.png" alt="datazologo" border="0" />`,
     };
     sgMail
       .send(msg)
@@ -198,6 +227,18 @@ const didYouContactHimGetToken = async (req, res) => {
       });
     }
 
+    const isTokenExpired = checkIfTokenExpired(token);
+    if (isTokenExpired) {
+      // El token ha expirado, eliminarlo de la base de datos
+      foundUser.tokenContacto = foundUser.tokenContacto.filter(
+        (item) => item.token !== token
+      );
+      await foundUser.save();
+      return res.status(400).json({
+        error: "El enlace ha expirado. Por favor, solicita un nuevo enlace.",
+      });
+    }
+
     res.json(matchingToken.token);
   } catch (error) {
     console.error("Error en didYouContactHimGetToken:", error);
@@ -217,7 +258,7 @@ const commentAndRating = async (req, res) => {
   }
 
   const { nombre, apellido, profesion } = foundProf;
-  const {
+  let {
     nombreCliente,
     apellidoCliente,
     fechaTrabajo,
@@ -225,14 +266,12 @@ const commentAndRating = async (req, res) => {
     emailCliente,
   } = req.body;
 
-  if (
-    !nombreCliente ||
-    !apellidoCliente ||
-    !emailCliente ||
-    !fechaTrabajo ||
-    !descripcionTrabajo
-  ) {
+  if (!nombreCliente || !apellidoCliente || !emailCliente || !fechaTrabajo) {
     return res.status(400).json({ error: "Faltan datos del cliente" });
+  }
+
+  if (descripcionTrabajo == "") {
+    descripcionTrabajo = `trabajo corriente de ${profesion}`;
   }
 
   const token = generateToken(emailCliente);
@@ -262,7 +301,17 @@ const commentAndRating = async (req, res) => {
     to: emailCliente,
     from: "soportetecnicodatazo@gmail.com",
     subject: "Califica al profesional",
-    html: `Hola ${nombreCliente} ${apellidoCliente}!, queremos saber como te fué contratando los servicios de ${nombre} ${apellido} cuyo ${profesion} has requerido de sus servicios: ${descripcionTrabajo} acordando para el dia ${fechaTrabajo} según los datos que nos aportaste, estaríamos encantados de que califiques y comentes su atención, si lo deseas, puedes hacer <a href="${link}">click aquí</a> para hacerlo, de lo contrario, ignora este mail`,
+    html: `<p>¡Hola ${nombreCliente} ${apellidoCliente}!</p>
+    <br>
+    <p>Nos gustaría conocer tu experiencia al contratar los servicios de ${nombre} ${apellido} como ${profesion}. 
+    Según los datos que nos proporcionaste, se acordó la visita para el ${fechaTrabajo}. 
+    Estaríamos encantados si pudieras tomarte un momento para calificar y comentar su atención. Si deseas hacerlo, puedes hacer <a href="${link}">click aquí!</a>. En caso contrario, simplemente ignora este correo.</p> 
+    <br> 
+    <p>Gracias y esperamos tus comentarios.</p>
+    <p>Atentamente,</p>
+    <p>el equipo de Datazo!</p>
+    <br>
+    <img src="https://i.ibb.co/s5M2hB8/datazologo.png" alt="datazologo" border="0" />`,
   };
   sgMail
     .send(msg)
@@ -303,6 +352,18 @@ const commentAndRatingGet = async (req, res) => {
       return res
         .status(404)
         .json({ error: "No se encontró ningún token que coincida" });
+    }
+
+    const isTokenExpired = checkIfTokenExpired(token);
+    if (isTokenExpired) {
+      // El token ha expirado, eliminarlo de la base de datos
+      foundUser.tokenContacto = foundUser.tokenContacto.filter(
+        (item) => item.token !== token
+      );
+      await foundUser.save();
+      return res.status(400).json({
+        error: "El enlace ha expirado. Por favor, solicita un nuevo enlace.",
+      });
     }
 
     res.json(matchingToken.token);

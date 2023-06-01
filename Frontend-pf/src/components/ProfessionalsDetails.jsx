@@ -17,6 +17,7 @@ import {
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
 import api from "../app/api/api";
+import toast, { Toaster } from "react-hot-toast";
 
 const CVDocument = ({ professional }) => {
   const styles = StyleSheet.create({
@@ -270,11 +271,21 @@ const ProfessionalDetails = () => {
       <path d="M15 3a6 6 0 0 1 6 6"></path>
    </svg> Celular: <b>${contactoProf}</b> `,
       confirmButtonText: "Aceptar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        toast(
+          "Queremos informarte que te enviaremos un correo electrónico importante en los próximos días. Por favor, revisa tu bandeja de entrada para asegurarte de recibir nuestra comunicación. ¡Gracias!",
+          {
+            duration: 10000,
+          }
+        );
+      }
     });
   };
 
   return (
     <>
+      <Toaster position="bottom-left" reverseOrder={false} />
       <div
         className="col-md-4 position-absolute top-50 end-0 translate-middle-y perfiles-similares"
         style={{ marginLeft: "50px", marginRight: "20px" }}
