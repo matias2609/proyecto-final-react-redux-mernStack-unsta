@@ -7,12 +7,17 @@ import Swal from "sweetalert2";
 
 const ContactRegister = () => {
   useTitle("Registrar Trabajo");
-  const { id, token } = useParams();
+  const { id, token, alt } = useParams();
   const [tokenContact, setTokenContact] = useState();
   const [fecha, setFecha] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const { email, nombre, apellido } = useAuth();
   const [error, setError] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [errorFecha, setErrorFecha] = useState("");
+  const [errorDescripcion, setErrorDescripcion] = useState("");
+  const [errorCategoria, setErrorCategoria] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,12 +50,28 @@ const ContactRegister = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (!categoria) {
+      setErrorCategoria("Por favor, seleccione un tipo de trabajo.");
+      return;
+    }
+
+    if (!descripcion) {
+      setErrorDescripcion("Por favor, ingrese la descripción personalizada.");
+      return;
+    }
+
+    if (!fecha) {
+      setErrorFecha("Por favor, ingrese una fecha.");
+      return;
+    }
+    const descripcionTrabajo = categoria === "otro" ? descripcion : categoria;
     api
       .post(`/professionals/commentAndRatingMail/${id}`, {
         nombreCliente: nombre,
         apellidoCliente: apellido,
         fechaTrabajo: fecha,
-        descripcionTrabajo: descripcion,
+        descripcionTrabajo: descripcionTrabajo,
         emailCliente: email,
       })
       .then((response) => {
@@ -65,6 +86,61 @@ const ContactRegister = () => {
     });
     setTimeout(navigate("/"), 3000);
   };
+
+  const trabajosTipicos = {
+    Plomero: [
+      "Reparación de tuberías y cañerías",
+      "Instalación de grifos y sanitarios",
+      "Solución de problemas de fugas de agua",
+      "Instalación de sistemas de drenaje",
+      "Reparación y mantenimiento de calentadores de agua",
+    ],
+    Electricista: [
+      "Instalación de sistemas eléctricos en viviendas",
+      "Reparación de circuitos eléctricos",
+      "Instalación y mantenimiento de iluminación interior y exterior",
+      "Resolución de cortocircuitos y fallos eléctricos",
+      "Instalación de sistemas de seguridad y alarmas",
+    ],
+    Pintor: [
+      "Preparación de superficies antes de la pintura",
+      "Aplicación de pintura en interiores y exteriores",
+      "Tratamiento y reparación de grietas y imperfecciones en las paredes",
+      "Uso de técnicas de pintura decorativa como estucado o esponjado",
+      "Protección y conservación de superficies pintadas",
+    ],
+    Albañil: [
+      "Construcción de muros y paredes",
+      "Instalación de baldosas y revestimientos",
+      "Reparación y mantenimiento de estructuras de concreto",
+      "Realización de trabajos de enlucido y yeso",
+      "Construcción de chimeneas, barbacoas u otras estructuras especiales",
+    ],
+    Carpintero: [
+      "Fabricación e instalación de muebles a medida",
+      "Construcción y reparación de puertas y ventanas",
+      "Instalación de suelos de madera y laminados",
+      "Construcción de estructuras de madera como pérgolas o porches",
+      "Restauración y reparación de muebles antiguos",
+    ],
+    Gasista: [
+      "Instalación de sistemas de gas domiciliarios",
+      "Mantenimiento y reparación de instalaciones de gas",
+      "Conversión de artefactos a gas natural o gas envasado",
+      "Instalación de cañerías para gas industrial o comercial",
+      "Detección y reparación de fugas de gas",
+    ],
+  };
+
+  const handleCategoriaChange = (event) => {
+    const selectedCategoria = event.target.value;
+    setCategoria(selectedCategoria);
+    if (selectedCategoria !== "otro") {
+      setDescripcion("");
+    }
+  };
+
+  const opciones = trabajosTipicos[alt] || [];
 
   const isTokenValid =
     tokenContact && token.toLowerCase() === tokenContact.toLowerCase();
@@ -144,14 +220,45 @@ const ContactRegister = () => {
               <div className="card-body">
                 <form onSubmit={handleSubmit}>
                   <div className="form-group mt-2">
-                    <h6>Breve descripción del trabajo:</h6>
-                    <textarea
+                    <h6>
+                      Seleccione el tipo de trabajo que ha pactado con el
+                      profesional:
+                    </h6>
+                    <select
                       className="form-control"
-                      placeholder="Ejemplo: Arreglo de fuga en el lavamanos"
-                      value={descripcion}
-                      onChange={handleDescripcionChange}
-                      maxLength="50"
-                    ></textarea>
+                      id="categoria"
+                      value={categoria}
+                      onChange={handleCategoriaChange}
+                    >
+                      <option value="">Seleccionar un tipo de trabajo</option>
+                      {opciones.map((opcion, index) => (
+                        <option key={index} value={opcion}>
+                          {opcion}
+                        </option>
+                      ))}
+                      <option value="otro">Otro</option>
+                    </select>
+                    {errorCategoria && (
+                      <div className="text-danger">{errorCategoria}</div>
+                    )}
+                    {categoria === "otro" && (
+                      <div className="form-group mt-2">
+                        <label htmlFor="otroTrabajo">
+                          Ingrese una breve descripción del trabajo pactado:
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control mt-2"
+                          id="otroTrabajo"
+                          maxlength="50"
+                          value={descripcion}
+                          onChange={handleDescripcionChange}
+                        />
+                        {errorDescripcion && (
+                          <div className="text-danger">{errorDescripcion}</div>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   <br />
@@ -165,9 +272,11 @@ const ContactRegister = () => {
                         className="form-control"
                         value={fecha}
                         onChange={handleFechaChange}
-                        required
                       />
                     </div>
+                    {errorFecha && (
+                      <div className="text-danger">{errorFecha}</div>
+                    )}
                   </div>
                   <br />
 
