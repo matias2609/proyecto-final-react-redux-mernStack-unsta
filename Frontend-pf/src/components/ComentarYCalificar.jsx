@@ -163,45 +163,6 @@ const ComentarYCalificar = () => {
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
                   <h6>
-                    ¿El profesional fue cortés y responsable durante todo el
-                    proceso?
-                  </h6>
-                  <textarea
-                    className="form-control"
-                    placeholder="Sí / No / Algunas veces"
-                    maxlength="13"
-                  ></textarea>
-                </div>
-                <br />
-                <br />
-                <div className="form-group">
-                  <h6>
-                    ¿El profesional demostró conocimientos y habilidades
-                    adecuadas para el trabajo requerido?
-                  </h6>
-                  <textarea
-                    className="form-control"
-                    placeholder="Sí / No / Parcialmente"
-                    maxlength="12"
-                  ></textarea>
-                </div>
-                <br />
-                <br />
-                <div className="form-group">
-                  <h6>
-                    ¿El profesional resolvió los problemas o contratiempos de
-                    manera efectiva?
-                  </h6>
-                  <textarea
-                    className="form-control"
-                    placeholder="Sí / No / Parcialmente"
-                    maxlength="12"
-                  ></textarea>
-                </div>
-                <br />
-                <br />
-                <div className="form-group">
-                  <h6>
                     ¿Recomendarías a este trabajador para futuros servicios?
                   </h6>
                   <textarea
