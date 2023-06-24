@@ -7,6 +7,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.dropdown-item
+{
+  color:#ffffff;
+  background-color:#636363;
+}
+
 .fa-star {
   color: #ffd700;
 }
