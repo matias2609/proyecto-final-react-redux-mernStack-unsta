@@ -17,6 +17,8 @@ import ProfessionalDetails from "./components/ProfessionalsDetails";
 import ContactRegister from "./components/ContactRegister";
 import React from "react";
 import ComentarYCalificar from "./components/ComentarYCalificar";
+import MisSolicitudes from "./components/MisSolicitudes";
+import UltimaSolicitud from "./components/UltimaSolicitud";
 
 function App() {
   useTitle("Datazo.com");
@@ -30,6 +32,8 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
         <Route path="workWithUs" element={<WorkWithUs />} />
+        <Route path="missolicitudes" element={<MisSolicitudes />} />
+        <Route path="ultimasolicitud" element={<UltimaSolicitud />} />
         <Route path="/login/missPassword" element={<OlvideMiContraseña />} />
         {/* Protected Routes */}
         <Route element={<PersistLogin />}>
