@@ -133,18 +133,40 @@ const Layout = () => {
             className="button-container"
             style={{ fontFamily: "Lexend, sans-serif" }}
           >
-            <a href="/#faqs" className="button">
+            <NavLink className="button" to="/faqs">
               <b>Preguntas Frecuentes</b>
-            </a>
+            </NavLink>
             <NavLink className="button" to="/workWithUs">
               <b>Trabaja con Nosotros</b>
             </NavLink>
-
+    
             {user ? (
               <>
-                <button className="btn btn-danger" onClick={signOut}>
-                  <b>
-                    Cerrar Sesión &nbsp;
+            <div className="dropdown">
+              <img src="https://i.ibb.co/5n6vv1w/Notificaciones.jpg"
+              style={{width: "50%", height: "50%", marginTop: "0.5vw"}}>
+              </img>
+                <div className="dropdown-menu">
+                  <a className="dropdown-item">
+                    <NavLink to="/ultimasolicitud" style={{ textDecoration: 'none', color: 'inherit' }}>
+                      Última solicitud ➡️
+                    </NavLink>
+                  </a>
+                </div>
+            </div>
+
+            <div className="dropdown">
+              <img src="https://i.ibb.co/L8JG5Bz/Avatar.jpg"
+              style={{width: "60%", height: "70%", marginTop: "0.2vw"}}>
+              </img>
+                <div className="dropdown-menu">
+                  <a className="dropdown-item">
+                   <NavLink to="/missolicitudes" style={{ textDecoration: 'none', color: 'inherit' }}>
+                      Mis solicitudes
+                    </NavLink>
+                  </a>
+                  <a className="dropdown-item" href="#infoCliente" onClick={signOut}>
+                  Cerrar Sesión &nbsp;
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="icon icon-tabler icon-tabler-logout"
@@ -161,8 +183,9 @@ const Layout = () => {
                       <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
                       <path d="M7 12h14l-3 -3m0 6l3 -3"></path>
                     </svg>
-                  </b>
-                </button>
+                  </a>
+                </div>
+            </div>
               </>
             ) : (
               <>
@@ -287,3 +310,4 @@ const Layout = () => {
   );
 };
 export default Layout;
+
